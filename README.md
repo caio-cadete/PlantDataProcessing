@@ -7,16 +7,15 @@ Este repositório contém um pipeline de pré-processamento de dados utilizado e
 ## 🚀 Como começar
 
 1. Clone o repositório:
-
 ```bash
 git clone https://github.com/caio-cadete/PlantDataProcessing.git
 cd PlantDataProcessing
-
+```
 
 2. Instale as dependências:
-
+```bash
 pip install -r requirements.txt
-
+```
 
 
 📚 Fontes de Dados
@@ -62,4 +61,3 @@ A finalidade deste pipeline é gerar um dataset estruturado que servirá de base
 
 👨‍💻 Autor
 Caio Victor Soares Cadete
-GitHub
