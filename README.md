@@ -20,8 +20,9 @@ pip install -r requirements.txt
 
 📚 Fontes de Dados
 🌱 Dados de Plantas
-Portal SiBBr (ALA-Hub Brasil)
+Portal: SiBBr (ALA-Hub Brasil)
 Link: https://ala-hub.sibbr.gov.br/
+
 Dados coletados:
 
 Espécies do Reino Plantae
@@ -59,5 +60,6 @@ Global Change Biology, 17: 2905–2935.
 ✨ Objetivo final
 A finalidade deste pipeline é gerar um dataset estruturado que servirá de base para treinamento de modelos preditivos capazes de indicar quais espécies de plantas têm maior probabilidade de ocorrência em determinadas áreas do RJ, com base em clima, solo e localização geográfica.
 
-👨‍💻 Autor
-Caio Victor Soares Cadete
+👨‍💻 **Autor:** Caio Victor Soares Cadete  
+🔗 [GitHub](https://github.com/caio-cadete)
+
