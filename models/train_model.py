@@ -32,7 +32,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
 # Divide em treino e teste
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42, stratify=y)
 
 # Verificações de integridade
 assert len(X_train) == len(y_train), "X_train e y_train com tamanhos diferentes!"
@@ -47,13 +47,13 @@ y_pred = rf.predict(X_test)
 
 # Avaliação do modelo
 accuracy_rf = accuracy_score(y_test, y_pred)
-print(f"Acurácia do modelo: {accuracy_rf:.2f}")
+
 
 # Garante que apenas as classes presentes no y_test sejam usadas no relatório
 classes_presentes = np.unique(y_test)
 nomes_presentes = le.inverse_transform(classes_presentes)
 relatorio = classification_report(y_test, y_pred, labels=classes_presentes, target_names=nomes_presentes)
-
+print(f"Acurácia do modelo: {accuracy_rf:.2f}")
 # Exibe e salva o relatório
 print("\nRelatório de Classificação:\n")
 print(relatorio)
@@ -61,10 +61,10 @@ with open('models/relatorio_classificacao.txt', 'w', encoding='utf-8') as f:
     f.write(relatorio)
 
 # Salva o modelo, scaler e label encoder
-joblib.dump(rf, 'models/random_forest_model.pkl')
-joblib.dump(scaler, 'models/scaler.pkl')
-joblib.dump(le, 'models/label_encoder.pkl')
-print("\nModelo, scaler e label encoder salvos com sucesso!")
+# joblib.dump(rf, 'models/random_forest_model.pkl')
+# joblib.dump(scaler, 'models/scaler.pkl')
+# joblib.dump(le, 'models/label_encoder.pkl')
+# print("\nModelo, scaler e label encoder salvos com sucesso!")
 
 # Gráfico de importância das features
 importances = rf.feature_importances_

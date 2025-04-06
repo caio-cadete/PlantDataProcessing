@@ -4,8 +4,8 @@ import pandas as pd
 colunas_features = [
     "latitude", 
     "longitude", 
-    "Temperatura_Media_Anual_GrausC", 
-    "Precipitacao_Media_Anual_mm", 
+    # "Temperatura_Media_Anual_GrausC", 
+    # "Precipitacao_Media_Anual_mm", 
     # "Temperatura_Media_Janeiro_GrausC", 
     # "Temperatura_Media_Fevereiro_GrausC", 
     # "Temperatura_Media_Marco_GrausC", 
@@ -41,8 +41,8 @@ colunas_features = [
     # "Teor_Carbono_Organico_Cam_Superior_%", 
     # "Teor_Areia_Cam_Superior_%", 
     # "Teor_Silte_Cam_Superior_%", 
-    "Isotermalidade", 
-    "Sazonalidade_Temperatura"
+    # "Isotermalidade", 
+    # "Sazonalidade_Temperatura"
 ]
 
 def carregar_dados(path="data/plantas_clima_rj_processado.csv"):
