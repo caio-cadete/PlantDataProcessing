@@ -50,19 +50,18 @@ st.markdown("🖱️ **Desenhe um retângulo no mapa abaixo** para selecionar a 
 # Limites aproximados do estado do RJ
 max_bounds = [[-24.0, -44.5], [-20.5, -40.5]]
 
+# Criando o mapa com o zoom inicial e limitando o zoom para o RJ
 mapa = folium.Map(
-    location=[-22.5, -43.5],  # Posição inicial no centro do RJ
-    zoom_start=8,  # Zoom inicial
+    location=[-22.5, -43.5],
+    zoom_start=8,
+    min_zoom=7,  # Limita o zoom out para a área do RJ
+    max_zoom=18,  # Permite o zoom in até um nível máximo
     control_scale=True
 )
 
-# Define os limites de movimento (não permite sair da área do RJ)
+# Ajusta os limites do mapa para o Rio de Janeiro e fixa o zoom
 mapa.fit_bounds(max_bounds)
-
-# Definindo que o mapa não pode sair dessa área, mas o zoom será livre
 mapa.options['maxBounds'] = max_bounds
-mapa.options['dragging'] = True  # Permite o arrasto do mapa
-mapa.options['scrollWheelZoom'] = True  # Permite o zoom com a roda do mouse
 
 Draw(
     export=True,
@@ -108,12 +107,13 @@ if output and output.get("last_active_drawing"):
                 fill_opacity=0.4,
                 tooltip=tooltip
             ).add_to(mapa)
-
+        
             st.success(f"🌿 Planta recomendada: **{nome_popular}** ({pred_nome})")
-
+        except ValueError as ve:
+            st.error(f"❌ Erro de valor na predição: {str(ve)}")
+        except KeyError as ke:
+            st.error(f"❌ Erro de chave na predição: {str(ke)}")
         except Exception as e:
-            st.error("❌ Erro ao realizar a predição.")
+            st.error(f"❌ Erro na predição: {str(e)}")
             logging.error(f"Erro na predição: {str(e)}")
-
-else:
     st.warning("⚠️ Desenhe uma área no mapa acima para iniciar a análise.")
