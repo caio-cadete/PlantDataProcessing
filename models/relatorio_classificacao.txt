@@ -1,649 +1,82 @@
-                                             precision    recall  f1-score   support
+                  precision    recall  f1-score   support
 
-                          Abrus precatorius       0.00      0.00      0.00         3
-                   Achyrocline satureioides       0.20      0.12      0.15         8
-                    Acosmium lentiscifolium       0.50      0.33      0.40         3
-                      Actinostemon concolor       0.50      0.50      0.50         6
-                 Actinostemon verticillatus       0.22      0.77      0.34        13
-                        Adiantum latifolium       0.12      0.17      0.14         6
-                          Adiantum obliquum       0.20      0.14      0.17         7
-                   Adiantum serratodentatum       0.50      0.67      0.57         6
-                           Aechmea fasciata       0.00      0.00      0.00         6
-                         Aechmea nudicaulis       0.39      0.38      0.39        29
-                             Aechmea ramosa       0.50      0.50      0.50         2
-                        Ageratum conyzoides       0.00      0.00      0.00         6
-                             Aiouea saligna       0.15      0.33      0.21         6
-                        Albizia polycephala       0.43      0.38      0.40         8
-                      Alcantarea glaziouana       0.67      0.33      0.44         6
-                      Alcantarea imperialis       1.00      0.25      0.40         4
-                     Alchornea triplinervia       0.50      0.14      0.22         7
-                       Allagoptera arenaria       0.54      0.50      0.52        14
-                       Allamanda cathartica       0.33      0.33      0.33         9
-                    Allophylus petiolulatus       0.25      0.40      0.31         5
-                       Allophylus puberulus       0.00      0.00      0.00         7
-                          Alpinia purpurata       0.00      0.00      0.00        12
-                       Alstroemeria foliosa       0.25      0.33      0.29         6
-                   Alternanthera brasiliana       0.14      0.25      0.18         4
-                      Alysicarpus vaginalis       0.17      0.25      0.20         4
-                    Amphilophium crucigerum       0.00      0.00      0.00         2
-                    Anadenanthera colubrina       0.50      1.00      0.67         2
-                    Anadenanthera peregrina       1.00      0.50      0.67         2
-                    Anaxagorea dolichocarpa       0.00      0.00      0.00         3
-                        Anchietea pyrifolia       1.00      0.50      0.67         4
-                        Andira fraxinifolia       0.20      0.67      0.31         3
-                         Anemia mandioccana       0.67      0.40      0.50        10
-                         Anemia phyllitidis       0.00      0.00      0.00         8
-                              Aniba firmula       0.36      0.62      0.45         8
-                              Annona cacans       0.00      0.00      0.00         5
-                       Annona dolabripetala       0.18      0.25      0.21         8
-                        Anthurium coriaceum       0.40      0.40      0.40         5
-                         Anthurium harrisii       0.50      0.50      0.50         2
-                      Anthurium intermedium       0.00      0.00      0.00         4
-                      Anthurium longifolium       0.27      0.33      0.30         9
-                          Anthurium minarum       0.20      0.20      0.20         5
-                        Anthurium organense       0.33      0.25      0.29         4
-                           Anthurium parvum       0.38      0.33      0.35         9
-                     Anthurium pentaphyllum       0.00      0.00      0.00         6
-                         Anthurium scandens       0.29      0.25      0.27         8
-                         Antigonon leptopus       0.00      0.00      0.00         2
-                          Apuleia leiocarpa       0.52      0.67      0.59        18
-                     Araucaria angustifolia       0.71      0.75      0.73        16
-                     Aristolochia trilobata       0.75      0.86      0.80         7
-                         Artocarpus altilis       0.33      0.50      0.40         4
-                   Artocarpus heterophyllus       0.24      0.29      0.26        28
-                      Asclepias curassavica       0.20      0.14      0.17         7
-                    Aspidosperma pyricollum       0.00      0.00      0.00         2
-                      Asplenium auriculatum       0.00      0.00      0.00         6
-                          Asplenium auritum       0.00      0.00      0.00         7
-                Asplenium austrobrasiliense       0.20      0.33      0.25         9
-                        Asplenium harpeodes       0.00      0.00      0.00         7
-                        Asplenium kunzeanum       0.20      0.14      0.17         7
-                       Asplenium mucronatum       0.22      0.25      0.24         8
-                     Asplenium oligophyllum       0.00      0.00      0.00         7
-                         Asplenium regulare       0.10      0.08      0.09        13
-                      Asplenium scandicinum       0.07      0.10      0.08        10
-                         Asplenium serratum       0.00      0.00      0.00         5
-                 Astrocaryum aculeatissimum       0.39      0.47      0.42        15
-                      Aureliana fasciculata       0.80      0.50      0.62         8
-                        Axonopus compressus       0.00      0.00      0.00         4
-                           Baccharis crispa       0.00      0.00      0.00         2
-                  Baccharis dracunculifolia       0.00      0.00      0.00         4
-                        Baccharis platypoda       0.00      0.00      0.00         4
-                        Baccharis serrulata       0.40      0.40      0.40         5
-                             Bactris setosa       0.50      0.60      0.55         5
-                               Basella alba       0.00      0.00      0.00         1
-                          Bathysa australis       0.00      0.00      0.00         8
-                         Bathysa gymnocarpa       0.25      0.20      0.22         5
-                          Bathysa stipulata       0.08      0.14      0.10         7
-                         Bauhinia forficata       0.17      0.17      0.17         6
-                       Begonia aconitifolia       0.00      0.00      0.00         1
-                          Begonia angularis       0.12      0.11      0.12         9
-                           Begonia angulata       0.20      0.12      0.15         8
-                        Begonia arborescens       0.05      0.07      0.06        15
-                          Begonia bidentata       0.05      0.05      0.05        19
-                      Begonia convolvulacea       0.38      0.33      0.35         9
-                          Begonia cucullata       1.00      0.67      0.80         6
-                       Begonia dietrichiana       0.27      0.25      0.26        12
-                           Begonia fischeri       0.33      0.25      0.29         4
-                          Begonia fruticosa       0.06      0.08      0.07        25
-                           Begonia herbacea       0.00      0.00      0.00         6
-                           Begonia hirtella       0.35      0.29      0.32        24
-                            Begonia hispida       0.43      0.60      0.50         5
-                         Begonia hookeriana       0.17      0.11      0.13         9
-                           Begonia huegelii       0.12      0.18      0.14        11
-                          Begonia luxurians       0.17      0.20      0.18         5
-                           Begonia maculata       0.21      0.19      0.20        16
-                          Begonia pulchella       0.11      0.27      0.16        11
-                         Begonia ramentacea       0.50      0.14      0.22         7
-                               Begonia rufa       0.00      0.00      0.00         7
-                          Begonia sanguinea       1.00      0.60      0.75         5
-                       Begonia solananthera       0.67      0.33      0.44         6
-                      Besleria melancholica       0.30      0.25      0.27        12
-                              Bidens pilosa       0.20      0.25      0.22         4
-                          Billbergia amoena       0.50      0.50      0.50         8
-                     Billbergia pyramidalis       0.17      0.17      0.17        18
-                         Billbergia zebrina       0.00      0.00      0.00         2
-                              Bixa orellana       0.14      0.17      0.15        12
-                     Blechnum polypodioides       0.00      0.00      0.00         8
-                   Blutaparon portulacoides       1.00      1.00      1.00         2
-                          Boehmeria caudata       0.25      0.20      0.22         5
-                      Bolbitis serratifolia       0.00      0.00      0.00         7
-                      Borreria verticillata       0.50      0.33      0.40         3
-                       Bougainvillea glabra       0.00      0.00      0.00         4
-                Brasiliopuntia brasiliensis       0.00      0.00      0.00         5
-                       Bromelia antiacantha       0.43      0.33      0.38         9
-                         Brosimum guianense       0.50      0.33      0.40         3
-                         Brownea grandiceps       1.00      0.60      0.75         5
-                      Brugmansia suaveolens       0.33      0.20      0.25         5
-                          Byrsonima sericea       0.00      0.00      0.00         5
-                         Cabralea canjerana       0.29      0.29      0.29        14
-                       Caesalpinia echinata       0.36      0.44      0.40         9
-                    Caesalpinia pulcherrima       0.14      0.12      0.13         8
-                           Caladium bicolor       0.00      0.00      0.00         8
-                     Campomanesia guaviroba       0.27      0.44      0.33         9
-             Campomanesia schlechtendaliana       0.25      0.20      0.22         5
-                    Campyloneurum decurrens       0.00      0.00      0.00         6
-                Campyloneurum lapathifolium       0.08      0.08      0.08        12
-                      Campyloneurum nitidum       0.19      0.21      0.20        14
-                            Canavalia rosea       0.29      0.60      0.39        10
-                               Canna indica       0.00      0.00      0.00         5
-                              Carica papaya       0.00      0.00      0.00        14
-                          Cariniana legalis       0.75      0.60      0.67         5
-                   Carpotroche brasiliensis       0.00      0.00      0.00         3
-                           Casearia arborea       0.00      0.00      0.00         6
-                     Casearia commersoniana       0.00      0.00      0.00         3
-                          Casearia decandra       0.00      0.00      0.00         3
-                           Casearia obliqua       0.00      0.00      0.00         2
-                        Casearia pauciflora       0.09      0.17      0.12         6
-                        Casearia sylvestris       0.33      0.38      0.35        24
-                          Cassia ferruginea       0.60      1.00      0.75         3
-                        Catharanthus roseus       0.50      0.50      0.50         8
-                          Cattleya forbesii       1.00      0.20      0.33         5
-                      Cattleya harrisoniana       0.50      0.40      0.44         5
-                         Cecropia glaziovii       0.32      0.48      0.39        23
-                         Cecropia hololeuca       0.43      0.25      0.32        12
-                      Cecropia pachystachya       0.00      0.00      0.00         6
-                            Cedrela odorata       0.33      0.33      0.33         6
-                            Ceiba erianthos       0.43      0.60      0.50         5
-                             Ceiba speciosa       0.61      0.73      0.67        15
-                     Centratherum punctatum       0.33      0.12      0.18         8
-                 Centrolobium sclerophyllum       1.00      0.33      0.50         3
-                     Centrosema virginianum       0.33      0.25      0.29         4
-                      Cereus fernambucensis       0.67      0.29      0.40         7
-Cereus fernambucensis subsp. fernambucensis       1.00      0.50      0.67         4
-                         Cestrum bracteatum       0.20      0.17      0.18         6
-                    Chamaecrista ensiformis       0.75      0.38      0.50         8
-                             Chiococca alba       0.00      0.00      0.00         3
-                        Chloroleucon tortum       0.14      0.17      0.15         6
-                Chondrodendron platiphyllum       0.00      0.00      0.00         3
-                        Chromolaena odorata       0.20      0.33      0.25         3
-                        Chrysobalanus icaco       1.00      0.50      0.67         2
-                    Chrysophyllum flexuosum       0.29      0.20      0.24        10
-                Chrysophyllum lucentifolium       0.50      0.43      0.46         7
-                        Cissus verticillata       0.33      0.25      0.29         4
-                             Clethra scabra       0.12      0.11      0.11        19
-                         Clidemia biserrata       0.33      0.50      0.40         4
-                             Clidemia hirta       0.25      0.12      0.17         8
-                         Clidemia urceolata       0.67      0.40      0.50         5
-                     Clitoria fairchildiana       0.33      0.50      0.40         4
-                              Clusia criuva       0.00      0.00      0.00         4
-                         Clusia fluminensis       0.33      0.29      0.31         7
-                          Clusia lanceolata       0.29      0.17      0.21        12
-                            Cobaea scandens       1.00      0.14      0.25         7
-                             Cocos nucifera       0.00      0.00      0.00         3
-                             Coffea arabica       0.05      0.25      0.08         4
-             Coleocephalocereus fluminensis       0.44      0.40      0.42        10
-                     Commelina benghalensis       0.50      0.50      0.50         4
-                           Commelina erecta       0.29      0.33      0.31         6
-                             Cordia superba       0.47      0.57      0.52        14
-                        Cordia taguahyensis       1.00      0.50      0.67         2
-                         Cordia trichoclada       0.00      0.00      0.00         2
-                          Cordia trichotoma       1.00      0.50      0.67         2
-                          Cosmos sulphureus       0.00      0.00      0.00         7
-                            Costus spiralis       0.00      0.00      0.00         5
-                      Couroupita guianensis       0.48      0.70      0.57        53
-                       Coussapoa microcarpa       0.00      0.00      0.00         2
-                           Coussarea nodosa       0.00      0.00      0.00         4
-                          Coutarea hexandra       0.00      0.00      0.00         4
-                              Crateva tapia       0.00      0.00      0.00         4
-                          Crescentia cujete       0.00      0.00      0.00         3
-                         Crotalaria pallida       0.50      0.33      0.40         3
-                       Croton celtidifolius       0.00      0.00      0.00         3
-                          Croton compressus       0.00      0.00      0.00         4
-                         Croton floribundus       0.00      0.00      0.00         5
-                           Ctenanthe setosa       0.25      0.29      0.27         7
-                           Ctenitis deflexa       0.00      0.00      0.00         4
-                         Cupania emarginata       0.29      0.40      0.33         5
-                       Cupania oblongifolia       0.40      0.18      0.25        11
-                           Cupania racemosa       0.00      0.00      0.00         6
-                      Cuphea carthagenensis       0.50      0.36      0.42        11
-                      Cyanthillium cinereum       0.14      0.17      0.15         6
-                      Cyathea corcovadensis       0.00      0.00      0.00         7
-                   Cybistax antisyphilitica       0.00      0.00      0.00         5
-                        Cynophalla flexuosa       0.00      0.00      0.00         4
-                    Cyrtocymura scorpioides       0.00      0.00      0.00         9
-                        Dahlstedtia pinnata       0.33      0.33      0.33         6
-                    Dalbergia ecastaphyllum       0.29      0.50      0.36         4
-                        Dalbergia foliolosa       0.11      0.20      0.14         5
-                       Dalbergia frutescens       0.62      0.56      0.59         9
-                            Dalbergia nigra       0.43      0.60      0.50         5
-                          Danaea geniculata       0.20      0.33      0.25         9
-                             Davilla rugosa       0.43      0.38      0.40        16
-                              Delonix regia       1.00      0.60      0.75         5
-                  Dichorisandra thyrsiflora       0.22      0.42      0.29        19
-                      Dieffenbachia seguine       0.00      0.00      0.00         4
-                      Dioscorea dodecaneura       0.40      0.67      0.50         3
-                     Diphasiastrum thyoides       0.12      0.25      0.17         4
-                        Diplazium cristatum       0.27      0.38      0.32         8
-                         Dorstenia arifolia       0.30      0.50      0.38         6
-                           Dorstenia ramosa       0.18      0.33      0.24         6
-                   Doryopteris sagittifolia       0.38      0.30      0.33        10
-                        Drimys brasiliensis       0.14      0.25      0.18         4
-                           Drymaria cordata       0.00      0.00      0.00         3
-                     Dryopteris wallichiana       0.33      0.14      0.20         7
-                          Eclipta prostrata       0.25      0.25      0.25         4
-                          Edmundoa lindenii       0.00      0.00      0.00         5
-                           Emilia fosbergii       0.25      0.33      0.29         9
-                         Emilia sonchifolia       0.00      0.00      0.00         3
-                       Emmeorhiza umbellata       0.00      0.00      0.00         7
-                     Endlicheria paniculata       0.21      0.36      0.26        14
-                        Epidendrum secundum       0.20      0.20      0.20        15
-                     Epiphyllum phyllanthus       0.00      0.00      0.00         5
-                 Erechtites valerianifolius       0.00      0.00      0.00         4
-                   Eremanthus erythropappus       0.25      0.20      0.22         5
-                        Eriobotrya japonica       0.17      0.08      0.11        12
-                          Eryngium foetidum       0.00      0.00      0.00         4
-                          Erythrina falcata       0.67      0.67      0.67         6
-                         Erythrina speciosa       0.25      0.22      0.24         9
-                   Erythroxylum citrifolium       0.00      0.00      0.00         5
-                   Erythroxylum ovalifolium       0.00      0.00      0.00         4
-                      Erythroxylum pulchrum       0.00      0.00      0.00         7
-                       Esterhazya splendida       0.00      0.00      0.00         6
-                         Eugenia astringens       1.00      0.25      0.40         4
-                       Eugenia brasiliensis       0.36      0.29      0.32        14
-                        Eugenia candolleana       1.00      0.67      0.80         3
-                     Eugenia copacabanensis       0.33      0.20      0.25         5
-                            Eugenia excelsa       0.00      0.00      0.00         5
-                            Eugenia florida       0.33      0.20      0.25         5
-                          Eugenia oblongata       0.14      0.14      0.14         7
-                         Eugenia pisiformis       0.80      0.67      0.73         6
-                            Eugenia prasina       0.33      0.50      0.40         8
-                        Eugenia punicifolia       1.00      0.14      0.25         7
-                             Eugenia selloi       0.22      0.29      0.25         7
-                          Eugenia subavenia       0.22      0.44      0.30         9
-                        Eugenia tinguyensis       0.00      0.00      0.00         4
-                            Eugenia umbrosa       0.14      0.20      0.17         5
-                           Eugenia uniflora       0.10      0.07      0.08        27
-                          Eulophia maculata       1.00      0.67      0.80         3
-                     Euphorbia heterophylla       0.00      0.00      0.00         3
-                            Euphorbia hirta       0.40      0.50      0.44         4
-                             Euterpe edulis       0.52      0.84      0.64        61
-                          Ficus clusiifolia       1.00      0.50      0.67         4
-                        Ficus luschnathiana       0.29      0.33      0.31         6
-                              Fuchsia regia       0.29      0.29      0.29         7
-                         Galium hypocarpium       0.50      0.20      0.29         5
-                      Garcinia brasiliensis       0.05      0.25      0.08         4
-                      Gaultheria eriophylla       0.00      0.00      0.00         6
-                         Gaultheria serrata       0.17      0.17      0.17         6
-                           Genipa americana       1.00      0.50      0.67         4
-                         Geonoma schottiana       0.18      0.17      0.17        12
-                            Geophila repens       0.00      0.00      0.00         4
-                        Goeppertia colorata       0.00      0.00      0.00         9
-                      Goeppertia cylindrica       0.60      0.60      0.60         5
-                              Gomesa ramosa       0.86      0.75      0.80         8
-                           Guapira opposita       0.07      0.11      0.08        19
-                            Guarea guidonia       0.15      0.25      0.19        12
-                         Guarea macrophylla       0.00      0.00      0.00         5
-                        Guatteria australis       0.23      0.21      0.22        14
-                       Guatteria ferruginea       0.00      0.00      0.00         3
-                      Guettarda viburnoides       0.00      0.00      0.00         2
-                      Gymnanthes multiramea       0.20      0.17      0.18         6
-                 Handroanthus chrysotrichus       1.00      0.50      0.67         4
-                       Hedychium coronarium       0.24      0.19      0.21        21
-                      Hedyosmum brasiliense       0.00      0.00      0.00         3
-                          Heliconia angusta       0.15      0.18      0.17        11
-                      Heliconia psittacorum       0.12      0.15      0.13        13
-                         Heliconia rostrata       0.50      0.25      0.33         4
-                  Heliconia spathocircinata       0.00      0.00      0.00         5
-                       Heliotropium indicum       0.00      0.00      0.00         1
-                        Heteropterys nitida       0.40      0.33      0.36         6
-                         Hibiscus tiliaceus       0.00      0.00      0.00         2
-                      Hippobroma longiflora       0.32      0.25      0.28        24
-                         Huberia ovalifolia       0.20      0.25      0.22         8
-                    Hydrocotyle bonariensis       0.40      0.50      0.44         4
-                 Hymenophyllum caudiculatum       0.17      0.25      0.20         8
-                   Hymenophyllum polyanthos       0.17      0.29      0.21         7
-                          Hypoxis decumbens       0.00      0.00      0.00         4
-                       Impatiens walleriana       0.18      0.12      0.15        16
-                                Inga edulis       0.00      0.00      0.00         4
-                               Inga laurina       0.18      0.17      0.17        12
-                             Inga marginata       0.53      0.53      0.53        15
-                              Inga maritima       0.25      0.57      0.35         7
-                              Inga sessilis       0.20      0.33      0.25         3
-                               Ipomoea alba       0.29      0.50      0.36         4
-                            Ipomoea batatas       0.00      0.00      0.00         6
-                            Ipomoea cairica       0.27      0.25      0.26        12
-                           Ipomoea imperati       0.50      0.40      0.44         5
-                             Ipomoea indica       0.00      0.00      0.00         4
-                         Ipomoea pes-caprae       0.88      0.70      0.78        10
-                     Jatropha gossypiifolia       0.00      0.00      0.00         3
-                         Joannesia princeps       0.25      0.20      0.22         5
-                      Kalanchoe delagoensis       0.40      0.33      0.36         6
-                        Lacistema pubescens       0.07      0.22      0.11         9
-                      Laguncularia racemosa       0.38      0.38      0.38         8
-                             Lantana camara       0.18      0.29      0.22        14
-                             Lantana fucata       0.00      0.00      0.00         2
-                          Laportea aestuans       0.62      0.50      0.55        16
-                     Lastreopsis amplissima       0.09      0.17      0.12         6
-                         Leandra acutiflora       0.50      0.40      0.44        15
-                              Leandra aurea       0.15      0.40      0.22         5
-                          Leandra carassana       0.41      0.35      0.38        20
-                              Leandra hirta       0.24      0.40      0.30        10
-                      Leandra melastomoides       0.38      0.38      0.38        16
-                     Leandra multiplinervis       0.27      0.30      0.29        10
-                             Leandra nianga       0.60      0.30      0.40        10
-                     Leandra quinquedentata       0.50      0.22      0.31         9
-                            Leandra reversa       0.50      0.17      0.25         6
-                           Leandra sulfurea       0.75      0.27      0.40        11
-                         Leandra variabilis       0.33      0.18      0.24        11
-                           Lecythis pisonis       0.77      0.91      0.83        11
-                             Lejeunea flava       0.43      0.43      0.43         7
-                       Lepismium cruciforme       0.50      0.40      0.44         5
-                     Lepismium houlletianum       0.50      0.17      0.25         6
-                        Leptostelma maximum       0.00      0.00      0.00         5
-                      Leucaena leucocephala       0.50      0.14      0.22         7
-                           Libidibia ferrea       0.60      0.50      0.55         6
-                                Lippia alba       0.56      0.45      0.50        11
-                      Lomariopsis marginata       0.00      0.00      0.00         6
-                         Luehea grandiflora       0.00      0.00      0.00         4
-                        Lycopodium clavatum       0.00      0.00      0.00         6
-                          Lygodium volubile       0.00      0.00      0.00         7
-                     Machaerium brasiliense       0.60      0.38      0.46         8
-                          Machaerium hirtum       1.00      0.75      0.86         4
-                       Machaerium nyctitans       0.80      0.31      0.44        13
-                      Machaerium stipitatum       0.00      0.00      0.00         1
-                     Macrocarpaea glaziovii       0.55      0.75      0.63         8
-                 Macroptilium atropurpureum       1.00      1.00      1.00         1
-                  Malvaviscus penduliflorus       0.00      0.00      0.00         5
-                          Manihot esculenta       0.07      0.20      0.10         5
-                       Manilkara subsericea       0.11      0.20      0.14        10
-                         Maranta leuconeura       0.00      0.00      0.00         6
-                       Maytenus obtusifolia       0.00      0.00      0.00         6
-                      Megalastrum inaequale       0.30      0.43      0.35        14
-                       Melanopsidium nigrum       0.00      0.00      0.00         2
-                         Melanoxylon brauna       0.75      0.75      0.75         4
-                            Meriania glabra       0.54      0.47      0.50        15
-                        Meriania paniculata       0.33      0.44      0.38        18
-                           Metrodorea nigra       0.21      0.50      0.30         6
-                           Miconia albicans       0.14      0.12      0.13         8
-                       Miconia brasiliensis       0.22      0.25      0.24         8
-                         Miconia calvescens       0.09      0.07      0.08        15
-                        Miconia cinerascens       0.42      0.56      0.48         9
-                     Miconia cinnamomifolia       0.14      0.09      0.11        11
-                        Miconia fasciculata       0.26      0.50      0.34        10
-                            Miconia flammea       0.57      0.57      0.57         7
-                         Miconia ibaguensis       0.70      1.00      0.82         7
-                        Miconia latecrenata       0.31      0.36      0.33        11
-                            Miconia prasina       0.29      0.36      0.32        14
-                       Miconia pusilliflora       0.32      0.40      0.35        15
-                           Miconia theizans       0.56      0.36      0.43        14
-                            Miconia tristis       0.14      0.17      0.15        18
-                     Microgramma squamulosa       0.00      0.00      0.00         6
-                  Microgramma vacciniifolia       0.00      0.00      0.00         9
-              Micropholis crassipedicellata       0.67      0.29      0.40         7
-                    Mimosa caesalpiniifolia       0.00      0.00      0.00         3
-                              Mimosa pudica       0.11      0.11      0.11         9
-                          Mimusops coriacea       0.40      0.50      0.44         4
-                           Mirabilis jalapa       0.00      0.00      0.00         4
-                      Mollinedia schottiana       0.43      0.33      0.38         9
-                       Mollugo verticillata       0.00      0.00      0.00         2
-                        Momordica charantia       0.27      0.25      0.26        12
-                         Monstera adansonii       0.40      0.50      0.44         4
-                  Moquiniastrum polymorphum       0.00      0.00      0.00         3
-                       Myrceugenia alpigena       0.50      0.43      0.46         7
-                      Myrceugenia miersiana       0.29      0.29      0.29         7
-                     Myrceugenia myrcioides       0.41      0.54      0.47        13
-                          Myrcia guianensis       0.57      0.57      0.57         7
-                          Myrcia pubipetala       0.00      0.00      0.00         6
-                         Myrcia spectabilis       0.33      0.20      0.25        10
-                           Myrcia splendens       0.43      0.45      0.44        20
-                       Myrciaria floribunda       0.75      0.25      0.38        12
-                      Myrciaria glazioviana       0.40      0.31      0.35        13
-                       Myrocarpus frondosus       0.33      0.17      0.22         6
-                      Nectandra membranacea       0.00      0.00      0.00         9
-                    Nectandra oppositifolia       0.00      0.00      0.00         7
-                   Nematanthus crassifolius       0.14      0.17      0.15        12
-                      Neomitranthes obscura       0.57      0.50      0.53         8
-                       Neoregelia carolinae       1.00      0.40      0.57         5
-                     Neoregelia concentrica       0.50      0.60      0.55         5
-                         Neoregelia cruenta       0.50      0.29      0.36         7
-                          Nicotiana tabacum       0.00      0.00      0.00         4
-                    Niedenzuella acutifolia       0.00      0.00      0.00         3
-                     Niphidium crassifolium       0.25      0.17      0.20         6
-                    Nymphoides humboldtiana       0.00      0.00      0.00         6
-                        Ocimum campechianum       0.17      0.33      0.22         3
-                         Ocimum gratissimum       0.00      0.00      0.00         6
-                       Ocotea diospyrifolia       0.00      0.00      0.00         4
-                            Ocotea indecora       1.00      0.20      0.33         5
-                              Ocotea notata       0.40      0.29      0.33         7
-                            Ocotea puberula       0.33      0.17      0.22         6
-                       Oeceoclades maculata       0.00      0.00      0.00         3
-                           Opuntia dillenii       0.50      0.57      0.53         7
-                         Opuntia monacantha       0.71      0.56      0.62         9
-                            Ormosia arborea       0.50      0.33      0.40         3
-                        Ossaea amygdaloides       0.33      0.12      0.18         8
-                       Ossaea confertiflora       0.33      0.20      0.25        10
-                          Oxalis barrelieri       0.00      0.00      0.00         2
-                             Oxalis debilis       0.17      0.25      0.20         4
-                         Oxypetalum banksii       0.20      0.25      0.22         4
-                             Pachira glabra       0.67      0.40      0.50         5
-                    Pachystroma longifolium       1.00      0.50      0.67         4
-                  Paepalanthus schwackeanus       0.64      0.60      0.62        15
-                Palicourea longipedunculata       0.20      0.20      0.20         5
-                 Parapiptadenia pterosperma       0.25      0.17      0.20         6
-                   Parthenium hysterophorus       0.50      0.33      0.40         3
-                           Passiflora alata       0.29      0.50      0.36         4
-                     Passiflora amethystina       0.11      0.11      0.11         9
-                          Passiflora edulis       0.14      0.09      0.11        11
-                       Passiflora mucronata       0.14      0.17      0.15         6
-                        Passiflora racemosa       0.00      0.00      0.00         3
-                       Paubrasilia echinata       0.40      0.40      0.40        10
-                        Paullinia carpopoda       0.00      0.00      0.00         5
-                       Paullinia meliifolia       0.00      0.00      0.00         2
-                         Paullinia racemosa       0.00      0.00      0.00         3
-                  Paullinia weinmanniifolia       0.50      0.50      0.50         2
-                    Pecluma pectinatiformis       0.17      0.17      0.17         6
-                          Pecluma recurvata       0.00      0.00      0.00         8
-                         Peltophorum dubium       0.29      0.40      0.33         5
-                            Peperomia alata       0.00      0.00      0.00         5
-                    Peperomia corcovadensis       0.20      0.22      0.21         9
-                        Peperomia galioides       0.00      0.00      0.00         7
-                        Peperomia pellucida       0.14      0.17      0.15         6
-                      Peperomia tetraphylla       0.25      0.29      0.27         7
-                         Peperomia urocarpa       0.60      0.46      0.52        13
-                              Pera glabrata       0.11      0.18      0.13        11
-                          Pereskia aculeata       0.44      0.27      0.33        15
-                         Petiveria alliacea       0.00      0.00      0.00         5
-                           Petrea volubilis       0.33      0.30      0.32        10
-                       Phanera microstachya       0.00      0.00      0.00         3
-                      Philodendron cordatum       0.50      0.29      0.36         7
-                 Philodendron crassinervium       0.56      0.50      0.53        10
-                       Philodendron ornatum       0.00      0.00      0.00         4
-                       Philodendron pedatum       0.29      0.40      0.33         5
-                    Philodendron propinquum       0.00      0.00      0.00         5
-                       Phyllanthus tenellus       0.00      0.00      0.00         5
-                      Picramnia glazioviana       0.00      0.00      0.00         4
-                             Pilea cadierei       0.42      0.28      0.33        18
-                          Pilea microphylla       0.18      0.17      0.17        18
-                     Pilosocereus arrabidae       0.00      0.00      0.00         5
-                              Piper aduncum       0.25      0.29      0.27         7
-                              Piper amalago       0.14      0.20      0.17         5
-                               Piper amplum       0.00      0.00      0.00        15
-                               Piper anisum       0.05      0.08      0.06        12
-                             Piper arboreum       0.00      0.00      0.00         8
-                             Piper caldense       0.14      0.10      0.12        10
-                              Piper cernuum       0.33      0.22      0.27         9
-                      Piper gaudichaudianum       0.07      0.07      0.07        14
-                    Piper hoffmannseggianum       0.50      0.50      0.50         6
-                           Piper mollicomum       0.10      0.10      0.10        10
-                      Piper richardiifolium       0.00      0.00      0.00         5
-                           Piper rivinoides       0.17      0.25      0.20         4
-                          Piper scutifolium       0.17      0.12      0.14         8
-                          Piper translucens       0.06      0.12      0.08         8
-                            Piper truncatum       0.00      0.00      0.00         7
-                           Piper umbellatum       0.33      0.20      0.25         5
-                     Piptadenia gonoacantha       0.43      0.33      0.38         9
-                      Piptadenia paniculata       0.67      0.75      0.71         8
-                          Pistia stratiotes       0.00      0.00      0.00         4
-                         Pitcairnia flammea       0.33      0.18      0.24        11
-                             Plantago major       0.08      0.08      0.08        12
-                        Platypodium elegans       0.62      0.83      0.71         6
-                    Pleiochiton blepharodes       0.20      0.29      0.24         7
-                    Pleopeltis hirsutissima       0.20      0.09      0.12        11
-                      Pleopeltis macrocarpa       0.00      0.00      0.00         7
-                    Pleopeltis pleopeltidis       0.00      0.00      0.00         9
-                  Pleopeltis pleopeltifolia       0.00      0.00      0.00         5
-                         Pleroma granulosum       0.33      0.27      0.30        11
-                       Pleroma heteromallum       0.00      0.00      0.00         4
-                          Plinia cauliflora       0.00      0.00      0.00         6
-                              Plinia edulis       0.60      0.50      0.55         6
-                      Polybotrya cylindrica       0.00      0.00      0.00         9
-                          Polybotrya pilosa       0.55      0.86      0.67         7
-                        Polybotrya speciosa       0.33      0.44      0.38         9
-                    Polyphlebium angustatum       0.17      0.12      0.14         8
-                   Polyphlebium pyxidiferum       0.00      0.00      0.00         7
-                       Pontederia crassipes       0.00      0.00      0.00         4
-                         Portulaca oleracea       0.56      0.71      0.62         7
-                       Posoqueria latifolia       0.18      0.33      0.24         6
-                           Pouteria caimito       0.00      0.00      0.00         3
-                        Pradosia lactescens       0.33      0.33      0.33         3
-                       Protium heptaphyllum       0.00      0.00      0.00         3
-                  Pseudobombax grandiflorum       0.29      0.22      0.25         9
-                  Pseudopiptadenia contorta       0.00      0.00      0.00        13
-                        Psidium cattleianum       0.17      0.25      0.20         4
-                            Psidium guajava       0.30      0.30      0.30        20
-                          Psidium guineense       0.06      0.25      0.10         4
-                  Psychotria carthagenensis       0.48      0.71      0.57        14
-                       Psychotria leiocarpa       0.13      0.15      0.14        20
-                            Psychotria nuda       0.09      0.09      0.09        32
-                        Psychotria pubigera       0.25      0.14      0.18         7
-                    Psychotria ruelliifolia       0.00      0.00      0.00         6
-                     Psychotria stachyoides       0.00      0.00      0.00         8
-                       Psychotria suterella       0.00      0.00      0.00        11
-                      Psychotria vellosiana       0.40      0.14      0.21        14
-                           Pteris decurrens       0.25      0.17      0.20         6
-                             Pteris deflexa       0.00      0.00      0.00         8
-                         Pteris denticulata       0.00      0.00      0.00         3
-                           Pteris splendens       0.00      0.00      0.00         7
-                         Pterocarpus rohrii       0.75      0.38      0.50         8
-                         Pyrostegia venusta       0.00      0.00      0.00         2
-                        Quesnelia liboniana       0.43      0.43      0.43         7
-                      Quesnelia quesneliana       0.25      0.29      0.27         7
-                              Randia armata       0.25      0.33      0.29         3
-                        Rhipsalis elliptica       0.00      0.00      0.00         7
-                     Rhipsalis lindbergiana       0.26      0.40      0.32        15
-                       Rhipsalis pachyptera       0.40      0.22      0.29         9
-                            Rhipsalis teres       0.75      0.33      0.46         9
-                           Ricinus communis       0.60      0.50      0.55         6
-                             Rivina humilis       0.47      0.47      0.47        19
-                            Roupala montana       0.25      0.17      0.20         6
-                           Rubus rosifolius       0.25      0.11      0.15         9
-                         Rudgea jasminoides       0.00      0.00      0.00         6
-                         Rudgea macrophylla       0.10      0.14      0.12         7
-                             Rudgea recurva       0.10      0.20      0.13         5
-                         Sacoila lanceolata       0.22      0.50      0.31         4
-                           Salvia splendens       0.27      0.31      0.29        13
-                         Sapindus saponaria       0.00      0.00      0.00         3
-                         Sapium glandulosum       0.50      0.20      0.29         5
-                      Schizolobium parahyba       0.44      0.50      0.47        16
-                     Schlumbergera truncata       0.33      0.17      0.22         6
-                      Selenicereus setaceus       0.50      0.50      0.50         2
-                   Senefeldera verticillata       0.33      0.25      0.29         4
-                              Senna affinis       0.00      0.00      0.00         3
-                                Senna alata       0.00      0.00      0.00         2
-                          Senna macranthera       0.29      0.33      0.31         6
-                            Senna multijuga       0.38      0.50      0.43        10
-                              Senna pendula       0.25      0.11      0.15         9
-                         Serjania cuspidata       0.25      0.25      0.25         4
-                     Serpocaulon catharinae       0.00      0.00      0.00         9
-                  Serpocaulon fraxinifolium       0.00      0.00      0.00         7
-                           Sida planicaulis       0.00      0.00      0.00         3
-                           Sida rhombifolia       0.40      0.67      0.50         3
-                     Sigesbeckia orientalis       0.17      0.20      0.18         5
-                         Sinningia speciosa       1.00      1.00      1.00         1
-                      Siparuna brasiliensis       0.31      0.31      0.31        16
-                        Siparuna guianensis       0.33      0.25      0.29         8
-                Siphocampylus duploserratus       0.00      0.00      0.00         5
-                            Sloanea hirsuta       0.22      0.20      0.21        10
-                         Sloanea monosperma       0.08      0.17      0.11         6
-                         Solanum americanum       0.40      0.40      0.40        10
-                          Solanum argenteum       0.27      0.43      0.33         7
-                        Solanum capsicoides       0.50      0.14      0.22         7
-                            Solanum cernuum       0.06      0.25      0.10         4
-                        Solanum cordifolium       0.00      0.00      0.00         2
-                            Solanum didymum       0.25      0.29      0.27         7
-                          Solanum diphyllum       0.00      0.00      0.00         3
-                          Solanum hexandrum       0.40      0.50      0.44         4
-                       Solanum leucodendron       0.38      0.30      0.33        10
-                        Solanum mauritianum       0.17      0.50      0.25         2
-                        Solanum pseudoquina       0.20      0.12      0.15         8
-                    Solanum sisymbriifolium       0.00      0.00      0.00         4
-                        Solanum swartzianum       0.33      0.14      0.20         7
-                             Solanum torvum       0.00      0.00      0.00         5
-                          Sonchus oleraceus       0.00      0.00      0.00         3
-                          Sophora tomentosa       0.50      0.36      0.42        14
-                      Sorocea guilleminiana       0.08      0.25      0.12         4
-                            Sorocea hilarii       0.00      0.00      0.00         2
-                  Sparattosperma leucanthum       0.00      0.00      0.00         4
-                    Spermacoce verticillata       0.00      0.00      0.00         3
-                    Sphagneticola trilobata       0.29      0.26      0.27        31
-                 Stachytarpheta cayennensis       0.00      0.00      0.00         7
-                        Stifftia chrysantha       0.50      0.27      0.35        15
-                          Stromanthe thalia       0.17      0.10      0.12        10
-                         Stromanthe tonckat       0.00      0.00      0.00         4
-                           Swartzia apetala       0.25      0.25      0.25         4
-                        Swartzia flaemingii       0.36      0.57      0.44         7
-                           Swartzia simplex       0.67      0.33      0.44         6
-                      Syagrus romanzoffiana       0.57      0.44      0.50         9
-                       Synedrella nodiflora       0.60      0.75      0.67         4
-                      Syngonium podophyllum       0.60      0.33      0.43         9
-                       Tabebuia cassinoides       1.00      0.33      0.50         6
-                      Tabernaemontana laeta       0.00      0.00      0.00         2
-                       Tachigali pilgeriana       0.86      0.75      0.80         8
-                         Talinum fruticosum       0.25      0.17      0.20         6
-                        Talinum paniculatum       0.33      0.23      0.27        13
-                            Tectaria incisa       0.06      0.09      0.07        11
-                       Terminalia acuminata       0.20      0.25      0.22         4
-                         Terminalia catappa       0.20      0.13      0.16        15
-                     Tetrapterys phlomoides       0.00      0.00      0.00         3
-                     Tibouchina gardneriana       0.25      0.33      0.29        15
-                       Tibouchina granulosa       0.00      0.00      0.00         6
-                     Tibouchina heteromalla       0.20      0.12      0.15         8
-                         Tillandsia araujei       0.20      0.20      0.20         5
-                        Tillandsia gardneri       0.50      0.14      0.22         7
-                     Tillandsia geminiflora       0.20      0.14      0.17        14
-                     Tillandsia mallemontii       0.35      0.86      0.50         7
-                       Tillandsia recurvata       0.25      0.33      0.29         3
-                         Tillandsia stricta       0.22      0.27      0.24        30
-                      Tillandsia tenuifolia       0.00      0.00      0.00         3
-                     Tillandsia tricholepis       0.38      0.40      0.39        15
-                       Tillandsia usneoides       0.14      0.08      0.11        12
-                           Tocoyena bullata       0.00      0.00      0.00         5
-                       Tradescantia zebrina       0.29      0.12      0.17        16
-                            Trema micrantha       0.00      0.00      0.00         7
-                       Trembleya parviflora       0.00      0.00      0.00         5
-                        Trichilia casaretti       0.00      0.00      0.00         3
-                          Tridax procumbens       0.33      0.33      0.33         6
-                        Triplaris americana       0.67      0.40      0.50         5
-                      Tripogandra diuretica       0.00      0.00      0.00         5
-                           Turnera subulata       0.17      0.08      0.11        13
-                               Ulva lactuca       1.00      0.80      0.89         5
-                   Urbanodendron verrucosum       0.00      0.00      0.00         3
-                               Urena lobata       0.29      0.29      0.29         7
-                            Urera baccifera       0.33      0.17      0.22         6
-                               Urera nitida       0.00      0.00      0.00         7
-                     Utricularia reniformis       0.40      0.29      0.33         7
-                     Vandenboschia radicans       0.25      0.22      0.24         9
-                       Vanhouttea calcarata       0.00      0.00      0.00         5
-                       Varronia curassavica       0.00      0.00      0.00         7
-                         Verbesina glabrata       0.60      0.75      0.67         4
-                         Vriesea bituminosa       0.20      0.22      0.21         9
-                           Vriesea gigantea       0.00      0.00      0.00         5
-                      Vriesea heterostachys       0.00      0.00      0.00         5
-                          Vriesea itatiaiae       0.38      0.60      0.46        10
-                            Vriesea jonghei       0.33      0.20      0.25         5
-                   Vriesea philippocoburgii       0.71      0.62      0.67         8
-                            Vriesea procera       0.25      0.50      0.33         2
-                         Vriesea psittacina       0.29      0.40      0.33        10
-                  Weinmannia paulliniifolia       0.38      0.43      0.40         7
-                          Xanthosoma taioba       0.00      0.00      0.00         3
-                       Xylopia brasiliensis       0.00      0.00      0.00         4
-                            Xylopia sericea       0.00      0.00      0.00         3
-                     Zanthoxylum rhoifolium       0.00      0.00      0.00         5
-                           Zollernia glabra       0.33      0.40      0.36        10
-                      Zygopetalum maculatum       0.00      0.00      0.00         8
-                      Zygopetalum maxillare       0.25      0.14      0.18         7
+      Anemiaceae       0.27      0.19      0.22        16
+      Annonaceae       0.22      0.15      0.18        13
+     Apocynaceae       0.21      0.20      0.21        15
+         Araceae       0.30      0.30      0.30        54
+   Araucariaceae       0.50      0.36      0.42        14
+       Arecaceae       0.40      0.34      0.37        61
+Aristolochiaceae       0.50      0.50      0.50         6
+    Aspleniaceae       0.24      0.20      0.22        56
+      Asteraceae       0.26      0.19      0.22        79
+     Athyriaceae       0.25      0.33      0.29         6
+   Balsaminaceae       0.08      0.07      0.08        14
+     Begoniaceae       0.40      0.39      0.39       153
+        Bixaceae       0.17      0.10      0.12        10
+     Blechnaceae       0.14      0.17      0.15         6
+    Boraginaceae       0.38      0.42      0.40        12
+    Bromeliaceae       0.37      0.44      0.40       183
+       Cactaceae       0.37      0.36      0.36        69
+   Campanulaceae       0.24      0.23      0.23        22
+     Cannabaceae       0.00      0.00      0.00         7
+      Caricaceae       0.00      0.00      0.00        13
+     Clethraceae       0.00      0.00      0.00        12
+      Clusiaceae       0.25      0.18      0.21        11
+    Combretaceae       0.32      0.36      0.34        22
+   Commelinaceae       0.47      0.23      0.31        30
+  Convolvulaceae       0.71      0.48      0.57        21
+   Cucurbitaceae       0.00      0.00      0.00        11
+     Cyatheaceae       0.11      0.17      0.13         6
+    Dilleniaceae       0.17      0.17      0.17        12
+ Dryopteridaceae       0.15      0.14      0.14        37
+  Elaeocarpaceae       0.00      0.00      0.00         8
+       Ericaceae       0.00      0.00      0.00         6
+   Eriocaulaceae       0.30      0.55      0.39        11
+        Fabaceae       0.34      0.39      0.37       154
+    Gesneriaceae       0.09      0.09      0.09        22
+   Heliconiaceae       0.07      0.05      0.06        21
+Hymenophyllaceae       0.20      0.21      0.21        28
+ Lacistemataceae       0.14      0.14      0.14         7
+       Lamiaceae       0.13      0.17      0.15        12
+       Lauraceae       0.10      0.10      0.10        29
+   Lecythidaceae       0.63      0.70      0.66        56
+Lentibulariaceae       0.25      0.17      0.20         6
+     Lygodiaceae       0.00      0.00      0.00         6
+      Lythraceae       0.25      0.11      0.15         9
+       Malvaceae       0.21      0.16      0.18        19
+     Marantaceae       0.12      0.08      0.10        24
+    Marattiaceae       0.06      0.12      0.08         8
+ Melastomataceae       0.53      0.55      0.54       253
+       Meliaceae       0.04      0.05      0.05        20
+     Monimiaceae       0.00      0.00      0.00         6
+        Moraceae       0.27      0.15      0.20        26
+       Myrtaceae       0.19      0.21      0.20       109
+   Nyctaginaceae       0.00      0.00      0.00        13
+      Onagraceae       0.00      0.00      0.00         7
+     Orchidaceae       0.21      0.26      0.23        27
+  Passifloraceae       0.27      0.22      0.24        18
+        Peraceae       0.50      0.25      0.33         8
+  Phytolaccaceae       0.42      0.47      0.44        17
+      Piperaceae       0.36      0.42      0.39       125
+  Plantaginaceae       0.24      0.36      0.29        11
+   Polemoniaceae       0.00      0.00      0.00         6
+   Polypodiaceae       0.24      0.30      0.27        66
+   Portulacaceae       0.33      0.17      0.22         6
+     Pteridaceae       0.24      0.23      0.24        26
+        Rosaceae       0.00      0.00      0.00        19
+       Rubiaceae       0.30      0.31      0.30        95
+      Salicaceae       0.33      0.33      0.33        15
+     Sapindaceae       0.17      0.12      0.14         8
+      Sapotaceae       0.00      0.00      0.00        14
+    Siparunaceae       0.10      0.10      0.10        20
+      Solanaceae       0.25      0.28      0.26        47
+      Talinaceae       0.20      0.17      0.18        12
+    Tectariaceae       0.00      0.00      0.00        10
+     Turneraceae       0.27      0.25      0.26        12
+      Urticaceae       0.29      0.27      0.28        82
+     Verbenaceae       0.22      0.27      0.24        30
+   Zingiberaceae       0.16      0.15      0.15        27
 
-                                   accuracy                           0.27      4874
-                                  macro avg       0.26      0.24      0.24      4874
-                               weighted avg       0.28      0.27      0.26      4874
+        accuracy                           0.31      2532
+       macro avg       0.22      0.20      0.21      2532
+    weighted avg       0.30      0.31      0.30      2532

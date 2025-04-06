@@ -17,11 +17,11 @@ from models.utils_model import carregar_dados, colunas_features
 df = carregar_dados()
 
 # Remove linhas com valores NaN nas colunas de interesse
-df = df.dropna(subset=colunas_features + ['nome_cientifico'])
+df = df.dropna(subset=colunas_features + ['familia'])
 
 # Codifica a variável alvo
 le = LabelEncoder()
-df['planta_codificada'] = le.fit_transform(df['nome_cientifico'])
+df['planta_codificada'] = le.fit_transform(df['familia'])
 
 # Separa features e alvo
 X = df[colunas_features]
