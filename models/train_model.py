@@ -1,93 +1,80 @@
 import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestClassifier  # Usando RandomForest
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split, cross_val_score  # Para validação cruzada
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
-from sklearn.model_selection import GridSearchCV  # Para ajuste de hiperparâmetros
+import numpy as np
 import sys
 import os
+
+# Adiciona o caminho do diretório pai para importar utilitários
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from models.utils_model import carregar_dados, colunas_features
-from sklearn.preprocessing import StandardScaler  # Para normalização
 
 # Carrega e prepara os dados
 df = carregar_dados()
 
-# Remove linhas com valores NaN
+# Remove linhas com valores NaN nas colunas de interesse
 df = df.dropna(subset=colunas_features + ['nome_cientifico'])
 
-# Codifica a variável alvo 'nome_cientifico'
+# Codifica a variável alvo
 le = LabelEncoder()
 df['planta_codificada'] = le.fit_transform(df['nome_cientifico'])
 
-# Separa as features (X) e a variável alvo (y)
+# Separa features e alvo
 X = df[colunas_features]
 y = df['planta_codificada']
 
-# Normaliza as variáveis numéricas
+# Normaliza as features
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Divida os dados em conjuntos de treinamento e teste
+# Divide em treino e teste
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
-# Verificar se X_train e y_train têm o mesmo comprimento após a divisão
-assert len(X_train) == len(y_train), "O número de amostras em X_train e y_train deve ser o mesmo."
-assert len(X_test) == len(y_test), "O número de amostras em X_test e y_test deve ser o mesmo."
+# Verificações de integridade
+assert len(X_train) == len(y_train), "X_train e y_train com tamanhos diferentes!"
+assert len(X_test) == len(y_test), "X_test e y_test com tamanhos diferentes!"
 
-# Ajuste de Hiperparâmetros utilizando GridSearchCV para o RandomForest
-param_grid = {
-    'n_estimators': [50, 100, 150],  # Número de árvores na floresta
-    'max_depth': [10, 20, 30, None],  # Profundidade máxima das árvores
-    'min_samples_split': [2, 5, 10],  # Número mínimo de amostras para dividir um nó
-    'min_samples_leaf': [1, 2, 4],    # Número mínimo de amostras em um nó folha
-    'bootstrap': [True, False]        # Usar bootstrap ou não
-}
-
-# Cria o modelo de RandomForest
+# Treina o modelo RandomForest
 rf = RandomForestClassifier(random_state=42)
+rf.fit(X_train, y_train)
 
-# Realiza uma busca em grid para otimizar os hiperparâmetros
-grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=3, n_jobs=-1, verbose=2)
-grid_search.fit(X_train, y_train)
+# Faz predições
+y_pred = rf.predict(X_test)
 
-# Melhores parâmetros encontrados
-print(f"Melhores parâmetros encontrados: {grid_search.best_params_}")
+# Avaliação do modelo
+accuracy_rf = accuracy_score(y_test, y_pred)
+print(f"Acurácia do modelo: {accuracy_rf:.2f}")
 
-# Usa o modelo com os melhores parâmetros encontrados
-modelo_rf = grid_search.best_estimator_
+# Garante que apenas as classes presentes no y_test sejam usadas no relatório
+classes_presentes = np.unique(y_test)
+nomes_presentes = le.inverse_transform(classes_presentes)
+relatorio = classification_report(y_test, y_pred, labels=classes_presentes, target_names=nomes_presentes)
 
-# Fazendo previsões no conjunto de teste
-y_pred_rf = modelo_rf.predict(X_test)
+# Exibe e salva o relatório
+print("\nRelatório de Classificação:\n")
+print(relatorio)
+with open('models/relatorio_classificacao.txt', 'w', encoding='utf-8') as f:
+    f.write(relatorio)
 
-# Calculando a acurácia
-accuracy_rf = accuracy_score(y_test, y_pred_rf)
-print(f"Acurácia no conjunto de teste (RandomForest): {accuracy_rf:.2f}")
+# Salva o modelo, scaler e label encoder
+joblib.dump(rf, 'models/random_forest_model.pkl')
+joblib.dump(scaler, 'models/scaler.pkl')
+joblib.dump(le, 'models/label_encoder.pkl')
+print("\nModelo, scaler e label encoder salvos com sucesso!")
 
-# Relatório detalhado de desempenho
-report_rf = classification_report(y_test, y_pred_rf)
-print(report_rf)
+# Gráfico de importância das features
+importances = rf.feature_importances_
+indices = importances.argsort()[::-1]
+feature_names = X.columns
 
-# Salva o modelo e o LabelEncoder
-joblib.dump(modelo_rf, 'modelo_random_forest.pkl')
-joblib.dump(le, 'label_encoder.pkl')
-
-print("✅ Modelo e encoder salvos com sucesso.")
-
-# Verificando a importância das variáveis
-importancia_rf = modelo_rf.feature_importances_
-
-# Criando um gráfico para visualizar as importâncias
 plt.figure(figsize=(10, 6))
-plt.barh(colunas_features, importancia_rf)
-plt.xlabel('Importância')
-plt.title('Importância das Variáveis no Modelo Random Forest')
+plt.title("Importância das Features - RandomForest")
+plt.bar(range(X.shape[1]), importances[indices], align="center")
+plt.xticks(range(X.shape[1]), [feature_names[i] for i in indices], rotation=90)
+plt.tight_layout()
+plt.savefig('models/importancia_features.png')
 plt.show()
-
-# Identificar as variáveis com baixa importância
-variaveis_baixa_importancia_rf = [colunas_features[i] for i in range(len(importancia_rf)) if importancia_rf[i] < 0.01]
-print("Variáveis com baixa importância (Random Forest):", variaveis_baixa_importancia_rf)
-
-# Exibir as variáveis com
