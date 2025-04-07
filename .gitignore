@@ -1,0 +1,7 @@
+# Ignorar arquivos .pkl, .txt, .png dentro da pasta models
+/models/*.pkl
+/models/*.txt
+/models/*.png
+
+# Ignorar a pasta __pycache__ (independente de onde ela esteja)
+__pycache__/
