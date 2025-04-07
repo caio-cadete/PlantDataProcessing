@@ -1,5 +1,6 @@
 # models/utils_model.py
 import pandas as pd
+from sklearn.cluster import KMeans
 
 colunas_features = [
     "latitude", 
@@ -45,5 +46,11 @@ colunas_features = [
     "Sazonalidade_Temperatura"
 ]
 
-def carregar_dados(path="data/plantas_clima_rj_processado_30.csv"):
-    return pd.read_csv(path, sep=';', encoding='latin1', low_memory=False)
+def carregar_dados():
+    df = pd.read_csv("data/plantas_clima_rj_processado_30.csv",sep=';', encoding='latin1', low_memory=False)
+
+    # Cluster geográfico com latitude/longitude
+    kmeans = KMeans(n_clusters=10, random_state=42)
+    df['cluster_geo'] = kmeans.fit_predict(df[['latitude', 'longitude']])
+
+    return df
