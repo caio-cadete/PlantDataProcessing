@@ -54,6 +54,7 @@ Kattge, J. et al. (2011).
 *Global Change Biology, 17: 2905–2935.*
 
 ✨ Objetivo final
+
 A finalidade deste pipeline é gerar um dataset estruturado que servirá de base para treinamento de modelos preditivos capazes de indicar quais espécies de plantas têm maior probabilidade de ocorrência em determinadas áreas do RJ, com base em clima, solo e localização geográfica.
 
 👨‍💻 **Autor:** Caio Victor Soares Cadete  
