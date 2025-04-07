@@ -5,3 +5,10 @@
 
 # Ignorar a pasta __pycache__ (independente de onde ela esteja)
 __pycache__/
+
+# Ignorar arquivos .zip específicos
+.Try2025454169TRY_6_Site_Climate_Soil.zip
+*.zip
+
+# Ignorar a pasta images
+/images/
