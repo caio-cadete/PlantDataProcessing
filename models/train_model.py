@@ -25,7 +25,8 @@ def preparar_dados(df, target_col):
     y = df['target_encoded']
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
-    return X_scaled, y, le, scaler
+    X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
+    return X_scaled_df, y, le, scaler
 
 def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
     print("🚀 Iniciando treino do modelo...")
@@ -34,7 +35,7 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
     )
 
     modelo = RandomForestClassifier(random_state=42,
-    n_jobs=-1,
+    n_jobs=-1, class_weight='balanced'
     # class_weight={0: 1, 1: 5}  # Ajuste os pesos conforme necessário
 )
     modelo.fit(X_train, y_train)
@@ -44,7 +45,18 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
 
     # Avaliação
     nomes_classes = le.inverse_transform(np.unique(y_test))
-    relatorio = classification_report(y_test, y_pred, target_names=nomes_classes)
+    relatorio = classification_report(y_test, y_pred, target_names=nomes_classes, zero_division=0)
+    relatorio_dict = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
+    df_relatorio = pd.DataFrame(relatorio_dict).T
+    
+    # ⚠️ Identifica classes com precisão zero (e que estavam presentes no y_test)
+    df_precision_zero = df_relatorio[(df_relatorio['precision'] == 0) & (df_relatorio['support'] > 0)]
+    
+    if not df_precision_zero.empty:
+        print("\n🚨 Classes com precisão zero:")
+        print(df_precision_zero)
+    else:
+        print("\n✅ Nenhuma classe com precisão zero.")
 
     # Salva modelo, encoder e scaler
     joblib.dump(modelo, f"{PASTA_MODELOS}/modelo_{target_col}.pkl")
