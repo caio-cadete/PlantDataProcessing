@@ -18,51 +18,44 @@ logging.basicConfig(filename=log_filename, level=logging.INFO, format="%(asctime
 
 # -------------------- Cache --------------------
 @st.cache_data
-def carregar_modelo():
-    return joblib.load('modelo_random_forest.pkl')
-
-@st.cache_data
-def carregar_encoder():
-    return joblib.load('label_encoder.pkl')
+def carregar_modelo_e_encoder(alvo):
+    modelo = joblib.load(f"models/modelo_{alvo}.pkl")
+    encoder = joblib.load(f"models/label_encoder_{alvo}.pkl")
+    return modelo, encoder
 
 @st.cache_data
 def carregar_dados():
     return carregar_dados_processados()
 
 # -------------------- Título --------------------
-st.title("🌱 Preditor de Planta Ideal para Reflorestamento no RJ")
+st.title("🌱 Preditor de Planta Ideal para Reflorestamento no RJ (Método Cascata)")
 
-# -------------------- Carregamento --------------------
-if 'modelo' not in st.session_state or 'encoder' not in st.session_state or 'df' not in st.session_state:
-    with st.spinner("🔄 Carregando modelo, encoder e dados..."):
-        st.session_state.modelo = carregar_modelo()
-        st.session_state.encoder = carregar_encoder()
-        st.session_state.df = carregar_dados()
-    st.success(f"✅ Dados carregados! Total de registros: {len(st.session_state.df)}")
-else:
-    modelo = st.session_state.modelo
-    le = st.session_state.encoder
-    df = st.session_state.df
+# -------------------- Dados e Modelos --------------------
+df = carregar_dados()
 
-# -------------------- Mapa único com seleção e predição --------------------
+modelos = {}
+encoders = {}
+alvos = ['classe', 'ordem', 'familia', 'genero', 'nome_cientifico']
+
+with st.spinner("🔄 Carregando modelos em cascata..."):
+    for alvo in alvos:
+        modelos[alvo], encoders[alvo] = carregar_modelo_e_encoder(alvo)
+    st.success("✅ Modelos carregados com sucesso!")
+
+# -------------------- Mapa --------------------
 st.markdown("🖱️ **Desenhe um retângulo no mapa abaixo** para selecionar a área de análise.")
 
-# Limites aproximados do estado do RJ
+# Inicializa os retângulos salvos na sessão
+if "retangulos" not in st.session_state:
+    st.session_state.retangulos = []
+
+# Criação do mapa
 max_bounds = [[-24.0, -44.5], [-20.5, -40.5]]
-
-# Criando o mapa com o zoom inicial e limitando o zoom para o RJ
-mapa = folium.Map(
-    location=[-22.5, -43.5],
-    zoom_start=8,
-    min_zoom=7,  # Limita o zoom out para a área do RJ
-    max_zoom=18,  # Permite o zoom in até um nível máximo
-    control_scale=True
-)
-
-# Ajusta os limites do mapa para o Rio de Janeiro e fixa o zoom
+mapa = folium.Map(location=[-22.5, -43.5], zoom_start=8, min_zoom=7, max_zoom=18, control_scale=True)
 mapa.fit_bounds(max_bounds)
 mapa.options['maxBounds'] = max_bounds
 
+# Adiciona controle de desenho
 Draw(
     export=True,
     draw_options={
@@ -71,8 +64,22 @@ Draw(
     }
 ).add_to(mapa)
 
-output = st_folium(mapa, width=1000, height=700)
+# Adiciona os retângulos anteriores salvos no estado
+for r in st.session_state.retangulos:
+    folium.Rectangle(
+        bounds=r["bounds"],
+        color="green",
+        fill=True,
+        fill_opacity=0.4,
+        tooltip=r["tooltip"]
+    ).add_to(mapa)
 
+# Exibe o mapa e captura a seleção
+output = st_folium(mapa, width=1000, height=700, key="mapa_interativo")
+st.markdown("🔍 **Área selecionada:**")
+
+# Processa a nova seleção, se houver
+# Processa a nova seleção, se houver
 if output and output.get("last_active_drawing"):
     coords = output["last_active_drawing"]["geometry"]["coordinates"][0]
     lon_min = min(c[0] for c in coords)
@@ -82,38 +89,56 @@ if output and output.get("last_active_drawing"):
 
     st.success(f"Área selecionada: de ({lat_min:.2f}, {lon_min:.2f}) até ({lat_max:.2f}, {lon_max:.2f})")
 
-    df_selecionado = df[
-        (df['latitude'].between(lat_min, lat_max)) &
-        (df['longitude'].between(lon_min, lon_max))
+    df_selecionado = df[ 
+        (df['latitude'].between(lat_min, lat_max)) & 
+        (df['longitude'].between(lon_min, lon_max)) 
     ]
 
     if df_selecionado.empty:
         st.warning("⚠️ Nenhum dado encontrado dentro da área selecionada.")
     else:
+        # Criação da entrada com os dados médios
         entrada = df_selecionado[colunas_features].mean().to_frame().T
         entrada['latitude'] = (lat_min + lat_max) / 2
         entrada['longitude'] = (lon_min + lon_max) / 2
 
         try:
-            pred_cod = modelo.predict(entrada)[0]
-            pred_nome = le.inverse_transform([pred_cod])[0]
-            nome_popular = df[df['nome_cientifico'] == pred_nome]['nome_popular'].mode()[0]
-            tooltip = f"{nome_popular} ({pred_nome})"
+            resultados = {}
+            for alvo in alvos:
+                modelo = modelos[alvo]
+                encoder = encoders[alvo]
 
-            folium.Rectangle(
-                bounds=[[lat_min, lon_min], [lat_max, lon_max]],
-                color="green",
-                fill=True,
-                fill_opacity=0.4,
-                tooltip=tooltip
-            ).add_to(mapa)
-        
-            st.success(f"🌿 Planta recomendada: **{nome_popular}** ({pred_nome})")
-        except ValueError as ve:
-            st.error(f"❌ Erro de valor na predição: {str(ve)}")
-        except KeyError as ke:
-            st.error(f"❌ Erro de chave na predição: {str(ke)}")
+                entrada_temp = entrada.copy()
+
+                # AQUI APLICAMOS A TRANSFORMAÇÃO NAS VARIÁVEIS CATEGÓRICAS
+                for feature in ['classe', 'ordem', 'familia', 'genero', 'nome_cientifico']:
+                    if feature in entrada_temp.columns:
+                        entrada_temp[feature] = encoder.transform(entrada_temp[feature])
+
+                # Predição com os dados já codificados
+                pred_cod = modelo.predict(entrada_temp)[0]
+                pred_str = encoder.inverse_transform([pred_cod])[0]
+                resultados[alvo] = pred_str
+
+            nome_predito = resultados['nome_cientifico']
+
+            linha_planta = df[df['nome_cientifico'].str.strip().str.lower() == nome_predito.strip().lower()]
+            nome_popular_series = linha_planta['nome_popular'].dropna()
+
+            if not nome_popular_series.empty:
+                nome_popular = nome_popular_series.mode()[0]
+                tooltip = f"{nome_popular} ({nome_predito})"
+                st.success(f"🌿 Planta recomendada: **{nome_popular}** ({nome_predito})")
+            else:
+                tooltip = nome_predito
+                st.success(f"🌿 Planta recomendada: **{nome_predito}**")
+
+            # Adiciona esse retângulo ao session_state
+            st.session_state.retangulos.append({
+                "bounds": [[lat_min, lon_min], [lat_max, lon_max]],
+                "tooltip": tooltip
+            })
+
         except Exception as e:
-            st.error(f"❌ Erro na predição: {str(e)}")
-            logging.error(f"Erro na predição: {str(e)}")
-    st.warning("⚠️ Desenhe uma área no mapa acima para iniciar a análise.")
+            st.error(f"❌ Erro durante a predição: {str(e)}")
+            logging.error(f"Erro na predição em cascata: {str(e)}")
