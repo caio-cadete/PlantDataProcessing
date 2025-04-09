@@ -11,13 +11,21 @@ import os
 import logging
 from pathlib import Path
 from datetime import datetime
+from sklearn.cluster import KMeans
 
+
+if "retangulos" not in st.session_state:
+    st.session_state.retangulos = []
 # -------------------- Logs --------------------
 os.makedirs("logs", exist_ok=True)
 log_filename = f"logs/log_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.log"
 logging.basicConfig(filename=log_filename, level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # -------------------- Cache --------------------
+
+def carregar_kmeans():
+    return joblib.load("models/kmeans.pkl")
+
 @st.cache_data
 def carregar_modelo_e_encoder(alvo):
     modelo = joblib.load(f"models/modelo_{alvo}.pkl")
@@ -44,6 +52,7 @@ if "modelos" not in st.session_state or "encoders" not in st.session_state:
 # Recupera os modelos e encoders já carregados do session_state
 modelos = st.session_state.modelos
 encoders = st.session_state.encoders
+kmeans = carregar_kmeans()
 
 # -------------------- Mapa --------------------
 st.markdown("🖱️ **Desenhe um retângulo no mapa abaixo** para selecionar a área de análise.")
@@ -75,26 +84,35 @@ def expandir_area(lon_min, lon_max, lat_min, lat_max, delta):
 
 def predizer_em_cascata(entrada, modelos, encoders, alvos):
     resultados = {}
-    # Começa com apenas as features usadas no modelo
-    entrada_temp = entrada[colunas_features + ['latitude', 'longitude']].copy()
-    for alvo in alvos:
-        modelo_path = Path(f"models/modelo_{alvo}.pkl")
-        encoder_path = Path(f"models/label_encoder_{alvo}.pkl")
-        if not modelo_path.exists() or not encoder_path.exists():
-            st.error(f"Modelo ou encoder para '{alvo}' não encontrado.")
-            st.stop()
+    entrada_temp = entrada.copy()
+
+    for i, alvo in enumerate(alvos):
         modelo = modelos[alvo]
         encoder = encoders[alvo]
-        entrada_temp = entrada[colunas_features + ['latitude', 'longitude']].copy()
-        for nivel in resultados:
-            entrada_temp[nivel] = encoders[nivel].transform([resultados[nivel]])
-        pred_cod = modelo.predict(entrada_temp)[0]
+
+        # Monta lista de colunas que foram usadas no treino
+        colunas_usadas = colunas_features + ['latitude', 'longitude'] + alvos[:i]
+
+        # Garante que todas as colunas estejam presentes
+        for coluna in alvos[:i]:
+            if coluna not in entrada_temp.columns:
+                entrada_temp[coluna] = encoders[coluna].transform([resultados[coluna]])[0]
+
+        # Ordena de acordo com a ordem aprendida pelo modelo
+        colunas_modelo = modelo.feature_names_in_
+        entrada_modelo = entrada_temp.reindex(columns=colunas_modelo)
+
+
+        # Predição
+        pred_cod = modelo.predict(entrada_modelo)[0]
         pred_str = encoder.inverse_transform([pred_cod])[0]
         resultados[alvo] = pred_str
+
+        # Adiciona a predição como nova coluna
         entrada_temp[alvo] = pred_cod
+
     return resultados
 
-# Tenta buscar dados inicialmente na área exata
 # Função para tentar selecionar dados com expansão progressiva
 def selecionar_dados_proximos(df, lat_min, lat_max, lon_min, lon_max, deltas):
     for delta in deltas:
@@ -144,7 +162,10 @@ if output and output.get("last_active_drawing"):
     lon_centro = (lon_min + lon_max) / 2
 
     # Cria entrada com média das features da região
-    entrada = df_selecionado[colunas_features].mean().to_frame().T
+    entrada = df_selecionado[colunas_features].median().to_frame().T
+    if 'cluster_geo' in df_selecionado.columns:
+        entrada["cluster_geo"] = kmeans.predict(entrada[["latitude", "longitude"]])
+
     entrada['latitude'] = lat_centro
     entrada['longitude'] = lon_centro
 

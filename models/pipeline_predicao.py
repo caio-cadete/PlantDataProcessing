@@ -27,7 +27,11 @@ def carregar_artefatos(target):
         modelo = joblib.load(os.path.join(PASTA_MODELOS, f"modelo_{target}.pkl"))
         encoder = joblib.load(os.path.join(PASTA_MODELOS, f"label_encoder_{target}.pkl"))
         scaler = joblib.load(os.path.join(PASTA_MODELOS, f"scaler_{target}.pkl"))
-        return modelo, encoder, scaler
+
+        with open(os.path.join(PASTA_MODELOS, f"features_{target}.txt")) as f:
+            features = f.read().splitlines()
+
+        return modelo, encoder, scaler, features
     except Exception as e:
         print(f"❌ Erro ao carregar artefatos para '{target}': {e}")
         raise

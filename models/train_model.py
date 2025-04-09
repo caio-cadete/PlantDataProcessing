@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.cluster import KMeans
 from sklearn.metrics import classification_report, accuracy_score
 from tqdm import tqdm
 
@@ -16,12 +17,32 @@ from models.utils_model import carregar_dados, colunas_features
 PASTA_MODELOS = "models"
 os.makedirs(PASTA_MODELOS, exist_ok=True)
 
+# 🔹 Define quantos clusters geográficos usar
+N_CLUSTERS = 10
+
+def adicionar_cluster_geo(df):
+    """Treina ou carrega um modelo KMeans e adiciona a coluna cluster_geo ao dataframe."""
+    kmeans_path = os.path.join(PASTA_MODELOS, 'kmeans.pkl')
+
+    if os.path.exists(kmeans_path):
+        kmeans = joblib.load(kmeans_path)
+        print("📥 KMeans carregado.")
+    else:
+        print("⚙️ Treinando modelo KMeans para agrupamento geográfico...")
+        kmeans = KMeans(n_clusters=N_CLUSTERS, random_state=42)
+        kmeans.fit(df[['latitude', 'longitude']])
+        joblib.dump(kmeans, kmeans_path)
+        print("✅ KMeans treinado e salvo.")
+
+    df['cluster_geo'] = kmeans.predict(df[['latitude', 'longitude']])
+    return df
+
 def preparar_dados(df, target_col):
     print(f"🔍 Preparando dados para '{target_col}'...")
-    df = df.dropna(subset=colunas_features + [target_col])
+    df = df.dropna(subset=colunas_features + ['cluster_geo', target_col])
     le = LabelEncoder()
     df['target_encoded'] = le.fit_transform(df[target_col])
-    X = df[colunas_features]
+    X = df[colunas_features + ['cluster_geo']]
     y = df['target_encoded']
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -34,10 +55,7 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    modelo = RandomForestClassifier(random_state=42,
-    n_jobs=-1, class_weight='balanced'
-    # class_weight={0: 1, 1: 5}  # Ajuste os pesos conforme necessário
-)
+    modelo = RandomForestClassifier(random_state=42, n_jobs=-1)
     modelo.fit(X_train, y_train)
 
     y_pred = modelo.predict(X_test)
@@ -49,7 +67,6 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
     relatorio_dict = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
     df_relatorio = pd.DataFrame(relatorio_dict).T
     
-    # ⚠️ Identifica classes com precisão zero (e que estavam presentes no y_test)
     df_precision_zero = df_relatorio[(df_relatorio['precision'] == 0) & (df_relatorio['support'] > 0)]
     
     if not df_precision_zero.empty:
@@ -63,7 +80,6 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
     joblib.dump(le, f"{PASTA_MODELOS}/label_encoder_{target_col}.pkl")
     joblib.dump(scaler, f"{PASTA_MODELOS}/scaler_{target_col}.pkl")
 
-    # Salva relatório
     with open(f"{PASTA_MODELOS}/relatorio_{target_col}.txt", "w", encoding="utf-8") as f:
         f.write(relatorio)
 
@@ -78,8 +94,9 @@ def plotar_importancia(modelo, target_col):
     indices = np.argsort(importances)[::-1]
     plt.figure(figsize=(12, 6))
     plt.title(f"Importância das Features - {target_col}")
-    plt.bar(range(len(colunas_features)), importances[indices])
-    plt.xticks(range(len(colunas_features)), [colunas_features[i] for i in indices], rotation=90)
+    plt.bar(range(len(importances)), importances[indices])
+    todas_features = colunas_features + ['cluster_geo']
+    plt.xticks(range(len(importances)), [todas_features[i] for i in indices], rotation=90)
     plt.tight_layout()
     plt.savefig(f"{PASTA_MODELOS}/importancia_{target_col}.png")
     plt.close()
@@ -88,6 +105,8 @@ def plotar_importancia(modelo, target_col):
 # ========== EXECUÇÃO ==========
 
 df = carregar_dados()
+df = adicionar_cluster_geo(df)
+
 alvos = ['classe', 'ordem', 'familia', 'genero', 'nome_cientifico']
 
 print("\n📦 Iniciando treinamento dos modelos...\n")
