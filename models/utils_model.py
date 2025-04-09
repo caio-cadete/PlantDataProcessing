@@ -1,6 +1,7 @@
 # models/utils_model.py
 import pandas as pd
 from sklearn.cluster import KMeans
+import os
 
 colunas_features = [
     "latitude", 
@@ -43,7 +44,7 @@ colunas_features = [
     "Teor_Areia_Cam_Superior_%", 
     "Teor_Silte_Cam_Superior_%", 
     "Isotermalidade", 
-    "Sazonalidade_Temperatura"
+    "Sazonalidade_Temperatura",
 ]
 
 def carregar_dados():
@@ -54,3 +55,4 @@ def carregar_dados():
     df['cluster_geo'] = kmeans.fit_predict(df[['latitude', 'longitude']])
 
     return df
+
