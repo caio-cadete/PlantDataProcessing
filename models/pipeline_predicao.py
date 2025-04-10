@@ -4,7 +4,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from sklearn.cluster import KMeans
+import joblib
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -40,35 +41,68 @@ def carregar_artefatos(target):
 def predizer_em_cascata(dados_input):
     print("\n🚀 Iniciando predição em cascata...\n")
     
-    dados = dados_input[colunas_features].copy()
+    dados = dados_input.copy().reset_index(drop=True)
     historico_preds = {}
 
     for alvo in ALVOS:
         print(f"\n📌 Etapa: {alvo.upper()}")
 
-        # Carrega os artefatos do modelo
-        modelo, encoder, scaler = carregar_artefatos(alvo)
+        modelo, encoder, scaler, features = carregar_artefatos(alvo)
 
-        # Garante que só as features corretas sejam usadas
-        dados_para_escalar = dados[colunas_features]
-        dados_escalados = scaler.transform(dados_para_escalar)
+        # Usa apenas as features corretas e garante nomes certos
+        dados_para_escalar = dados[features].copy()
+        dados_escalados = pd.DataFrame(
+            scaler.transform(dados_para_escalar),
+            columns=features
+        )
 
         # Predição
         pred_codificada = modelo.predict(dados_escalados)
         pred_nome = encoder.inverse_transform(pred_codificada)
 
-        # Feedback para o usuário
         for i, nome in enumerate(pred_nome):
             print(f"🔸 Amostra {i+1} → {alvo}: {nome}")
 
-        # Armazena a predição
         historico_preds[alvo] = pred_nome
-
-        # Adiciona como nova feature para a próxima rodada (opcional)
         dados[f"pred_{alvo}"] = pred_codificada
 
     print("\n✅ Predição finalizada com sucesso!")
-    return pd.DataFrame(historico_preds)
+
+    # ================= CONSISTÊNCIA HIERÁRQUICA =================
+    print("\n🔎 Validando consistência hierárquica das predições...\n")
+    resultados_df = pd.DataFrame(historico_preds).reset_index(drop=True)
+
+    try:
+        df_completo = pd.concat([dados_input.reset_index(drop=True), resultados_df], axis=1)
+
+        inconsistencias = []
+
+        for i, row in df_completo.iterrows():
+            pred_nome = row["nome_cientifico"]
+            linha_real = df_completo[df_completo["nome_cientifico"] == pred_nome].iloc[0]
+
+            for nivel in ["classe", "ordem", "familia", "genero"]:
+                if row[nivel] != linha_real[nivel]:
+                    inconsistencias.append({
+                        "amostra": i+1,
+                        "nome_cientifico": pred_nome,
+                        "nivel": nivel,
+                        "esperado": linha_real[nivel],
+                        "previsto": row[nivel]
+                    })
+
+        if inconsistencias:
+            print("⚠️ Inconsistências encontradas entre os níveis taxonômicos previstos:")
+            for inc in inconsistencias:
+                print(f"🔸 Amostra {inc['amostra']} – {inc['nivel'].capitalize()} incorreta para '{inc['nome_cientifico']}': Previsto '{inc['previsto']}', Esperado '{inc['esperado']}'")
+        else:
+            print("✅ Todas as predições seguem a hierarquia corretamente.")
+
+    except Exception as e:
+        print(f"❌ Erro na verificação de consistência: {e}")
+
+    return resultados_df
+
 
 
 # ========== TESTE COM UMA AMOSTRA ==========
@@ -76,13 +110,16 @@ def predizer_em_cascata(dados_input):
 if __name__ == "__main__":
     from models.utils_model import carregar_dados
 
-    # Carrega dados e seleciona uma amostra
+    # Carrega dados
     df = carregar_dados()
-    amostras_para_predizer = df.sample(30, random_state=42)  # <-- Pode aumentar para avaliação mais completa
+
+    # Seleciona amostras para predição
+    amostras_para_predizer = df.sample(100, random_state=42)
 
     print("🧪 Rodando pipeline para amostras:\n")
     print(amostras_para_predizer[colunas_features])
 
+    # Predição em cascata
     resultado = predizer_em_cascata(amostras_para_predizer)
 
     print("\n📋 Resultado da predição:")
@@ -99,7 +136,7 @@ if __name__ == "__main__":
         print("\n📈 Classification Report:")
         print(classification_report(y_true, y_pred, zero_division=0))
 
-        # Matriz de confusão (plot simples via seaborn)
+        # Matriz de confusão
         try:
             cm = confusion_matrix(y_true, y_pred, labels=np.unique(np.concatenate((y_true, y_pred))))
             plt.figure(figsize=(8, 6))
@@ -114,10 +151,12 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"⚠️ Erro ao gerar matriz de confusão: {e}")
 
-        # Comparativo direto
+        # Comparativo real x previsto
         comparativo = pd.DataFrame({
             'Real': y_true,
             'Previsto': y_pred
         })
         print("\n📌 Comparativo real x previsto:")
         print(comparativo)
+
+
