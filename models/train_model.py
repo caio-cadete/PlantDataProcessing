@@ -6,10 +6,8 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.cluster import KMeans
 from sklearn.metrics import classification_report, accuracy_score
 from tqdm import tqdm
-
 # Importa as funções e variáveis do seu módulo
 from models.utils_model import carregar_dados, colunas_features
 
@@ -17,45 +15,42 @@ from models.utils_model import carregar_dados, colunas_features
 PASTA_MODELOS = "models"
 os.makedirs(PASTA_MODELOS, exist_ok=True)
 
-# 🔹 Define quantos clusters geográficos usar
-N_CLUSTERS = 10
-
-def adicionar_cluster_geo(df):
-    """Treina ou carrega um modelo KMeans e adiciona a coluna cluster_geo ao dataframe."""
-    kmeans_path = os.path.join(PASTA_MODELOS, 'kmeans.pkl')
-
-    if os.path.exists(kmeans_path):
-        kmeans = joblib.load(kmeans_path)
-        print("📥 KMeans carregado.")
-    else:
-        print("⚙️ Treinando modelo KMeans para agrupamento geográfico...")
-        kmeans = KMeans(n_clusters=N_CLUSTERS, random_state=42)
-        kmeans.fit(df[['latitude', 'longitude']])
-        joblib.dump(kmeans, kmeans_path)
-        print("✅ KMeans treinado e salvo.")
-
-    df['cluster_geo'] = kmeans.predict(df[['latitude', 'longitude']])
-    return df
-
 def preparar_dados(df, target_col):
     print(f"🔍 Preparando dados para '{target_col}'...")
-    df = df.dropna(subset=colunas_features + ['cluster_geo', target_col])
+    df = df.dropna(subset=colunas_features + [target_col])
     le = LabelEncoder()
     df['target_encoded'] = le.fit_transform(df[target_col])
-    X = df[colunas_features + ['cluster_geo']]
+    X = df[colunas_features]
     y = df['target_encoded']
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
     return X_scaled_df, y, le, scaler
 
+from sklearn.utils.class_weight import compute_class_weight
+
 def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
     print("🚀 Iniciando treino do modelo...")
+
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    modelo = RandomForestClassifier(random_state=42, n_jobs=-1)
+    # # 🔹 Calcula os pesos automaticamente com base na distribuição das classes
+    # classes = np.unique(y_train)
+    # class_weights = compute_class_weight(class_weight='balanced', classes=classes, y=y_train)
+    # class_weight_dict = {cls: weight for cls, weight in zip(classes, class_weights)}
+
+    # print(f"⚖️ Pesos calculados para '{target_col}':")
+    # for k, v in class_weight_dict.items():
+    #     print(f"  Classe {le.inverse_transform([k])[0]}: peso {v:.2f}")
+
+    # 🔹 Treina o modelo com os pesos
+    modelo = RandomForestClassifier(
+        random_state=42,
+        n_jobs=-1,
+        # class_weight=class_weight_dict
+    )
     modelo.fit(X_train, y_train)
 
     y_pred = modelo.predict(X_test)
@@ -89,13 +84,14 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
         return modelo, X_test, y_test, y_pred
     return modelo
 
+
 def plotar_importancia(modelo, target_col):
     importances = modelo.feature_importances_
     indices = np.argsort(importances)[::-1]
     plt.figure(figsize=(12, 6))
     plt.title(f"Importância das Features - {target_col}")
     plt.bar(range(len(importances)), importances[indices])
-    todas_features = colunas_features + ['cluster_geo']
+    todas_features = colunas_features
     plt.xticks(range(len(importances)), [todas_features[i] for i in indices], rotation=90)
     plt.tight_layout()
     plt.savefig(f"{PASTA_MODELOS}/importancia_{target_col}.png")
@@ -105,7 +101,6 @@ def plotar_importancia(modelo, target_col):
 # ========== EXECUÇÃO ==========
 
 df = carregar_dados()
-df = adicionar_cluster_geo(df)
 
 alvos = ['classe', 'ordem', 'familia', 'genero', 'nome_cientifico']
 
@@ -123,6 +118,11 @@ for target in tqdm(alvos, desc="🔁 Processando alvos"):
         print(classification_report(y_test, y_pred, target_names=le.inverse_transform(sorted(set(y_test)))))
 
         plotar_importancia(modelo, target)
-
+        # 🔽 Salvando as features reais utilizadas no treino (após dropna)
+        features_utilizadas = list(X.columns)
+        with open(f"{PASTA_MODELOS}/features_{target}.txt", "w", encoding="utf-8") as f:
+            for feat in features_utilizadas:
+                f.write(f"{feat}\n")
     except Exception as e:
         print(f"⚠️ Erro ao treinar para '{target}': {e}")
+
