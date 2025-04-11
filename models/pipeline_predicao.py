@@ -6,7 +6,6 @@ import matplotlib
 matplotlib.use("Agg")  # Usa backend sem inter
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.cluster import KMeans
 import joblib
 from sklearn.metrics import (
     accuracy_score,
@@ -116,10 +115,6 @@ if __name__ == "__main__":
 
     # Seleciona amostras para predição
     amostras_para_predizer = df.sample(30, random_state=42)
-
-    # 🧠 Adiciona a coluna 'cluster_geo' usando KMeans
-    from models.train_model import adicionar_cluster_geo  # Certifique-se de que a função está lá
-    amostras_para_predizer = adicionar_cluster_geo(amostras_para_predizer)
 
     print("🧪 Rodando pipeline para amostras:\n")
     print(amostras_para_predizer[colunas_features])
