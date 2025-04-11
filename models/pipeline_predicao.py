@@ -2,6 +2,8 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")  # Usa backend sem inter
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
@@ -78,18 +80,19 @@ def predizer_em_cascata(dados_input):
         inconsistencias = []
 
         for i, row in df_completo.iterrows():
+            linha_real = dados_input.iloc[i]
             pred_nome = row["nome_cientifico"]
-            linha_real = df_completo[df_completo["nome_cientifico"] == pred_nome].iloc[0]
 
             for nivel in ["classe", "ordem", "familia", "genero"]:
-                if row[nivel] != linha_real[nivel]:
+                if str(row[nivel]) != str(linha_real[nivel]):
                     inconsistencias.append({
-                        "amostra": i+1,
-                        "nome_cientifico": pred_nome,
-                        "nivel": nivel,
-                        "esperado": linha_real[nivel],
-                        "previsto": row[nivel]
-                    })
+                "amostra": i+1,
+                "nome_cientifico": pred_nome,
+                "nivel": nivel,
+                "esperado": linha_real[nivel],
+                "previsto": row[nivel]
+            })
+
 
         if inconsistencias:
             print("⚠️ Inconsistências encontradas entre os níveis taxonômicos previstos:")
@@ -103,8 +106,6 @@ def predizer_em_cascata(dados_input):
 
     return resultados_df
 
-
-
 # ========== TESTE COM UMA AMOSTRA ==========
 
 if __name__ == "__main__":
@@ -114,7 +115,11 @@ if __name__ == "__main__":
     df = carregar_dados()
 
     # Seleciona amostras para predição
-    amostras_para_predizer = df.sample(100, random_state=42)
+    amostras_para_predizer = df.sample(30, random_state=42)
+
+    # 🧠 Adiciona a coluna 'cluster_geo' usando KMeans
+    from models.train_model import adicionar_cluster_geo  # Certifique-se de que a função está lá
+    amostras_para_predizer = adicionar_cluster_geo(amostras_para_predizer)
 
     print("🧪 Rodando pipeline para amostras:\n")
     print(amostras_para_predizer[colunas_features])
@@ -147,7 +152,9 @@ if __name__ == "__main__":
             plt.ylabel('Real')
             plt.title('🧩 Matriz de Confusão - Nome Científico')
             plt.tight_layout()
-            plt.show()
+            plt.savefig("models/matriz_confusao_nome_cientifico.png")
+            # salva a imagem
+            plt.close()  # fecha a figura para liberar memória
         except Exception as e:
             print(f"⚠️ Erro ao gerar matriz de confusão: {e}")
 
