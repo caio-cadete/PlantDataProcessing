@@ -2,18 +2,12 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
-<<<<<<< HEAD
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-=======
 import matplotlib
 matplotlib.use("Agg")  # Usa backend sem inter
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
 import joblib
->>>>>>> mathmodels
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -49,24 +43,12 @@ def carregar_artefatos(target):
 def predizer_em_cascata(dados_input):
     print("\n🚀 Iniciando predição em cascata...\n")
     
-<<<<<<< HEAD
-    dados = dados_input[colunas_features].copy()
-=======
     dados = dados_input.copy().reset_index(drop=True)
->>>>>>> mathmodels
     historico_preds = {}
 
     for alvo in ALVOS:
         print(f"\n📌 Etapa: {alvo.upper()}")
 
-<<<<<<< HEAD
-        # Carrega os artefatos do modelo
-        modelo, encoder, scaler = carregar_artefatos(alvo)
-
-        # Garante que só as features corretas sejam usadas
-        dados_para_escalar = dados[colunas_features]
-        dados_escalados = scaler.transform(dados_para_escalar)
-=======
         modelo, encoder, scaler, features = carregar_artefatos(alvo)
 
         # Usa apenas as features corretas e garante nomes certos
@@ -75,27 +57,11 @@ def predizer_em_cascata(dados_input):
             scaler.transform(dados_para_escalar),
             columns=features
         )
->>>>>>> mathmodels
 
         # Predição
         pred_codificada = modelo.predict(dados_escalados)
         pred_nome = encoder.inverse_transform(pred_codificada)
 
-<<<<<<< HEAD
-        # Feedback para o usuário
-        for i, nome in enumerate(pred_nome):
-            print(f"🔸 Amostra {i+1} → {alvo}: {nome}")
-
-        # Armazena a predição
-        historico_preds[alvo] = pred_nome
-
-        # Adiciona como nova feature para a próxima rodada (opcional)
-        dados[f"pred_{alvo}"] = pred_codificada
-
-    print("\n✅ Predição finalizada com sucesso!")
-    return pd.DataFrame(historico_preds)
-
-=======
         for i, nome in enumerate(pred_nome):
             print(f"🔸 Amostra {i+1} → {alvo}: {nome}")
 
@@ -139,18 +105,12 @@ def predizer_em_cascata(dados_input):
         print(f"❌ Erro na verificação de consistência: {e}")
 
     return resultados_df
->>>>>>> mathmodels
 
 # ========== TESTE COM UMA AMOSTRA ==========
 
 if __name__ == "__main__":
     from models.utils_model import carregar_dados
 
-<<<<<<< HEAD
-    # Carrega dados e seleciona uma amostra
-    df = carregar_dados()
-    amostras_para_predizer = df.sample(30, random_state=42)  # <-- Pode aumentar para avaliação mais completa
-=======
     # Carrega dados
     df = carregar_dados()
 
@@ -160,15 +120,11 @@ if __name__ == "__main__":
     # 🧠 Adiciona a coluna 'cluster_geo' usando KMeans
     from models.train_model import adicionar_cluster_geo  # Certifique-se de que a função está lá
     amostras_para_predizer = adicionar_cluster_geo(amostras_para_predizer)
->>>>>>> mathmodels
 
     print("🧪 Rodando pipeline para amostras:\n")
     print(amostras_para_predizer[colunas_features])
 
-<<<<<<< HEAD
-=======
     # Predição em cascata
->>>>>>> mathmodels
     resultado = predizer_em_cascata(amostras_para_predizer)
 
     print("\n📋 Resultado da predição:")
@@ -185,11 +141,7 @@ if __name__ == "__main__":
         print("\n📈 Classification Report:")
         print(classification_report(y_true, y_pred, zero_division=0))
 
-<<<<<<< HEAD
-        # Matriz de confusão (plot simples via seaborn)
-=======
         # Matriz de confusão
->>>>>>> mathmodels
         try:
             cm = confusion_matrix(y_true, y_pred, labels=np.unique(np.concatenate((y_true, y_pred))))
             plt.figure(figsize=(8, 6))
@@ -200,13 +152,6 @@ if __name__ == "__main__":
             plt.ylabel('Real')
             plt.title('🧩 Matriz de Confusão - Nome Científico')
             plt.tight_layout()
-<<<<<<< HEAD
-            plt.show()
-        except Exception as e:
-            print(f"⚠️ Erro ao gerar matriz de confusão: {e}")
-
-        # Comparativo direto
-=======
             plt.savefig("models/matriz_confusao_nome_cientifico.png")
             # salva a imagem
             plt.close()  # fecha a figura para liberar memória
@@ -214,15 +159,11 @@ if __name__ == "__main__":
             print(f"⚠️ Erro ao gerar matriz de confusão: {e}")
 
         # Comparativo real x previsto
->>>>>>> mathmodels
         comparativo = pd.DataFrame({
             'Real': y_true,
             'Previsto': y_pred
         })
         print("\n📌 Comparativo real x previsto:")
         print(comparativo)
-<<<<<<< HEAD
-=======
 
 
->>>>>>> mathmodels
