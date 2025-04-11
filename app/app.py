@@ -7,6 +7,7 @@ from folium.plugins import Draw
 from streamlit_folium import st_folium
 import os
 import logging
+from pathlib import Path
 from datetime import datetime
 from utils_app import carregar_dados_processados
 # -------------------- Logs --------------------
@@ -58,6 +59,7 @@ mapa = folium.Map(location=[-22.5, -43.5], zoom_start=8, min_zoom=7, max_zoom=18
 mapa.fit_bounds(max_bounds)
 mapa.options['maxBounds'] = max_bounds
 
+# Adiciona controle de desenho
 Draw(
     export=True,
     draw_options={'polyline': False, 'polygon': False, 'circle': False, 'marker': False, 'circlemarker': False, 'rectangle': True}
