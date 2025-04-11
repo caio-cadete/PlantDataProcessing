@@ -2,18 +2,23 @@ import os
 import numpy as np
 import pandas as pd
 import joblib
+import matplotlib
+matplotlib.use("Agg")  # Usa backend sem inter
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import classification_report, accuracy_score
 from tqdm import tqdm
+
 # Importa as funções e variáveis do seu módulo
 from models.utils_model import carregar_dados, colunas_features
 
 # Pasta de saída
 PASTA_MODELOS = "models"
 os.makedirs(PASTA_MODELOS, exist_ok=True)
+
+
 
 def preparar_dados(df, target_col):
     print(f"🔍 Preparando dados para '{target_col}'...")
@@ -27,30 +32,13 @@ def preparar_dados(df, target_col):
     X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
     return X_scaled_df, y, le, scaler
 
-from sklearn.utils.class_weight import compute_class_weight
-
 def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
     print("🚀 Iniciando treino do modelo...")
-
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    # # 🔹 Calcula os pesos automaticamente com base na distribuição das classes
-    # classes = np.unique(y_train)
-    # class_weights = compute_class_weight(class_weight='balanced', classes=classes, y=y_train)
-    # class_weight_dict = {cls: weight for cls, weight in zip(classes, class_weights)}
-
-    # print(f"⚖️ Pesos calculados para '{target_col}':")
-    # for k, v in class_weight_dict.items():
-    #     print(f"  Classe {le.inverse_transform([k])[0]}: peso {v:.2f}")
-
-    # 🔹 Treina o modelo com os pesos
-    modelo = RandomForestClassifier(
-        random_state=42,
-        n_jobs=-1,
-        # class_weight=class_weight_dict
-    )
+    modelo = RandomForestClassifier(random_state=42, n_jobs=-1)
     modelo.fit(X_train, y_train)
 
     y_pred = modelo.predict(X_test)
@@ -84,7 +72,6 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
         return modelo, X_test, y_test, y_pred
     return modelo
 
-
 def plotar_importancia(modelo, target_col):
     importances = modelo.feature_importances_
     indices = np.argsort(importances)[::-1]
@@ -115,14 +102,19 @@ for target in tqdm(alvos, desc="🔁 Processando alvos"):
         modelo, X_test, y_test, y_pred = treinar_e_salvar_modelo(X, y, le, scaler, target, return_preds=True)
 
         print("\n📊 Relatório de Classificação:")
-        print(classification_report(y_test, y_pred, target_names=le.inverse_transform(sorted(set(y_test)))))
+        print(classification_report(
+                y_test,
+                 y_pred,
+                target_names=le.classes_,
+                zero_division=0
+        ))
+
 
         plotar_importancia(modelo, target)
-        # 🔽 Salvando as features reais utilizadas no treino (após dropna)
+        
         features_utilizadas = list(X.columns)
         with open(f"{PASTA_MODELOS}/features_{target}.txt", "w", encoding="utf-8") as f:
             for feat in features_utilizadas:
                 f.write(f"{feat}\n")
     except Exception as e:
         print(f"⚠️ Erro ao treinar para '{target}': {e}")
-
