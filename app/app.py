@@ -9,7 +9,7 @@ import os
 import logging
 from pathlib import Path
 from datetime import datetime
-from utils_app import carregar_dados_processados
+from utils_app import carregar_dados_processados, colunas_features
 # -------------------- Logs --------------------
 if "retangulos" not in st.session_state:
     st.session_state.retangulos = []
@@ -68,6 +68,7 @@ Draw(
 output = st_folium(mapa, width=1000, height=700, key="mapa_interativo")
 st.markdown("🔍 **Área selecionada:**")
 
+
 def predizer_em_cascata(entrada, modelos, encoders, alvos, scalers):
     resultados = {}
     entrada_temp = entrada.copy()
@@ -77,17 +78,22 @@ def predizer_em_cascata(entrada, modelos, encoders, alvos, scalers):
         encoder = encoders[alvo]
         scaler = scalers[alvo]
 
-        colunas_modelo = modelo.feature_names_in_
-        entrada_modelo = entrada_temp.reindex(columns=colunas_modelo)
+        # Reindexa os dados de entrada com base nas colunas de features
+        entrada_modelo = entrada_temp.reindex(columns=colunas_features)
 
+        # Garante que os dados de entrada estejam escalonados de acordo com o scaler
         entrada_modelo = scaler.transform(entrada_modelo)
 
+        # Realiza a predição
         pred_cod = modelo.predict(entrada_modelo)[0]
         pred_str = encoder.inverse_transform([pred_cod])[0]
+
         resultados[alvo] = pred_str
         entrada_temp[alvo] = pred_cod
 
     return resultados
+
+
 
 # Processa a nova seleção, se houver
 if output and output.get("last_active_drawing"):
