@@ -88,7 +88,6 @@ def plotar_importancia(modelo, target_col):
 # ========== EXECUÇÃO ==========
 
 df = carregar_dados()
-df = adicionar_cluster_geo(df)
 
 alvos = ['classe', 'ordem', 'familia', 'genero', 'nome_cientifico']
 
