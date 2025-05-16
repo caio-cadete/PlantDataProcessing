@@ -1,16 +1,27 @@
-# Ignorar arquivos .pkl, .txt, .png dentro da pasta models
-/models/*.pkl
-/models/*.txt
-/models/*.png 
+# Ignorar arquivos .pkl, .txt, .png dentro da pasta models e subpastas
+/models/**/*.pkl
+/models/**/*.txt
+/models/**/*.png
 
 
-# Ignorar a pasta __pycache__ (independente de onde ela esteja)
-__pycache__/
+# Ignorar a pasta __pycache__ em qualquer lugar do projeto
+**/__pycache__/
 
-# Ignorar arquivos .zip específicos
-.Try2025454169TRY_6_Site_Climate_Soil.zip
+# Ignorar arquivos .zip
 *.zip
 
-# Ignorar a pasta images
-/images/
+# Ignorar a pasta virtualenv
+.venv/
+
+# Ignorar a pasta images (e tudo dentro dela)
+.images/
+
+# Ignorar a pasta de logs
 logs/
+
+# Ignorar arquivos temporários do sistema e IDEs
+*.pyc
+*.pyo
+*.logs
+*.DS_Store
+.vscode/
