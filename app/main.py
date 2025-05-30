@@ -65,6 +65,10 @@ def recommend_plant(input_data: PlantInput):
     # Return the predicted scientific name and all levels
     return result_df.iloc[0].to_dict()
 
+@app.get("/ping")
+def ping():
+    return {"message": "pong"}
+
 @app.post("/recommend-plant-bbox")
 def recommend_plant_bbox(bbox: BBoxInput):
     df = carregar_dados()

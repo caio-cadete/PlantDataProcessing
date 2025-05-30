@@ -22,9 +22,9 @@ logging.basicConfig(filename=log_filename, level=logging.INFO, format="%(asctime
 # -------------------- Cache --------------------
 @st.cache_data
 def carregar_modelo_e_encoder(alvo):
-    modelo = joblib.load(f"models/modelo_{alvo}.pkl")
-    encoder = joblib.load(f"models/label_encoder_{alvo}.pkl")
-    scaler = joblib.load(f"models/scaler_{alvo}.pkl")  
+    modelo = joblib.load(f"trained-models/{alvo}_model.pkl")
+    encoder = joblib.load(f"trained-models/{alvo}_label_encoder.pkl")
+    scaler = joblib.load(f"trained-models/{alvo}_scaler.pkl")  
     return modelo, encoder, scaler
 
 @st.cache_data

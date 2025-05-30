@@ -12,7 +12,16 @@ git clone https://github.com/caio-cadete/PlantDataProcessing.git
 cd PlantDataProcessing
 ```
 
-2. Instale as dependências:
+2. Inicie um ambiente virtual:
+```bash
+python -m venv .venv
+# Mac/Linux
+source .venv/bin/activate
+# Windows
+.venv\Scripts\activate
+```
+
+3. Instale as dependências:
 ```bash
 pip install -r requirements.txt
 ```

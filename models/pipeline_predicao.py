@@ -7,6 +7,8 @@ matplotlib.use("Agg")  # Usa backend sem inter
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+import gc  # Added garbage collection
+import sys
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -17,20 +19,33 @@ from sklearn.metrics import (
 from models.utils_model import colunas_features
 
 # Caminho da pasta com os modelos
-PASTA_MODELOS = "models"
+PASTA_MODELOS = "trained-models"
 
 # Ordem dos alvos para predição em cascata
 ALVOS = ['classe', 'ordem', 'familia', 'genero', 'nome_cientifico']
 
 
+def limpar_memoria_agressiva():
+    """Força limpeza agressiva de memória"""
+    gc.collect()
+    gc.collect()
+    gc.collect()
+
+
 def carregar_artefatos(target):
     print(f"🔍 Carregando modelo, encoder e scaler para: {target}")
     try:
-        modelo = joblib.load(os.path.join(PASTA_MODELOS, f"modelo_{target}.pkl"))
-        encoder = joblib.load(os.path.join(PASTA_MODELOS, f"label_encoder_{target}.pkl"))
-        scaler = joblib.load(os.path.join(PASTA_MODELOS, f"scaler_{target}.pkl"))
+        # Para o modelo maior, use memory mapping se disponível
+        if target == 'nome_cientifico':
+            print("⚠️ Carregando modelo grande com otimizações especiais...")
+            # Força limpeza antes de carregar o modelo grande
+            limpar_memoria_agressiva()
+        
+        modelo = joblib.load(os.path.join(PASTA_MODELOS, f"{target}_model.pkl"))
+        encoder = joblib.load(os.path.join(PASTA_MODELOS, f"{target}_label_encoder.pkl"))
+        scaler = joblib.load(os.path.join(PASTA_MODELOS, f"{target}_scaler.pkl"))
 
-        with open(os.path.join(PASTA_MODELOS, f"features_{target}.txt")) as f:
+        with open(os.path.join(PASTA_MODELOS, f"{target}_features.txt")) as f:
             features = f.read().splitlines()
 
         return modelo, encoder, scaler, features
@@ -39,19 +54,23 @@ def carregar_artefatos(target):
         raise
 
 
-def predizer_em_cascata(dados_input):
-    print("\n🚀 Iniciando predição em cascata...\n")
+def predizer_nivel_unico(dados_input, alvo):
+    """Prediz um único nível taxonômico e libera a memória imediatamente"""
+    print(f"\n📌 Etapa: {alvo.upper()}")
     
-    dados = dados_input.copy().reset_index(drop=True)
-    historico_preds = {}
-
-    for alvo in ALVOS:
-        print(f"\n📌 Etapa: {alvo.upper()}")
-
+    # Limpeza prévia de memória
+    limpar_memoria_agressiva()
+    
+    modelo = None
+    encoder = None
+    scaler = None
+    
+    try:
+        # Carrega apenas os artefatos necessários para este nível
         modelo, encoder, scaler, features = carregar_artefatos(alvo)
-
+        
         # Usa apenas as features corretas e garante nomes certos
-        dados_para_escalar = dados[features].copy()
+        dados_para_escalar = dados_input[features].copy()
         dados_escalados = pd.DataFrame(
             scaler.transform(dados_para_escalar),
             columns=features
@@ -64,8 +83,51 @@ def predizer_em_cascata(dados_input):
         for i, nome in enumerate(pred_nome):
             print(f"🔸 Amostra {i+1} → {alvo}: {nome}")
 
-        historico_preds[alvo] = pred_nome
-        dados[f"pred_{alvo}"] = pred_codificada
+        # Retorna a predição e os códigos
+        return pred_nome, pred_codificada
+        
+    except Exception as e:
+        print(f"❌ Erro na predição para {alvo}: {e}")
+        raise
+    finally:
+        # Força a liberação da memória de forma agressiva
+        if modelo is not None:
+            del modelo
+        if encoder is not None:
+            del encoder
+        if scaler is not None:
+            del scaler
+        
+        # Múltiplas chamadas de garbage collection para garantir limpeza
+        limpar_memoria_agressiva()
+        print(f"✅ Memória liberada para {alvo}")
+
+
+def predizer_em_cascata(dados_input):
+    print("\n🚀 Iniciando predição em cascata...\n")
+    
+    # Limpeza inicial de memória
+    limpar_memoria_agressiva()
+    
+    dados = dados_input.copy().reset_index(drop=True)
+    historico_preds = {}
+
+    for alvo in ALVOS:
+        try:
+            # Prediz um nível por vez e libera a memória
+            pred_nome, pred_codificada = predizer_nivel_unico(dados, alvo)
+            
+            historico_preds[alvo] = pred_nome
+            dados[f"pred_{alvo}"] = pred_codificada
+            
+            # Limpeza após cada predição
+            limpar_memoria_agressiva()
+            
+        except Exception as e:
+            print(f"❌ Erro na predição em cascata para {alvo}: {e}")
+            # Mesmo em caso de erro, tenta limpar a memória
+            limpar_memoria_agressiva()
+            raise
 
     print("\n✅ Predição finalizada com sucesso!")
 
@@ -147,7 +209,7 @@ if __name__ == "__main__":
             plt.ylabel('Real')
             plt.title('🧩 Matriz de Confusão - Nome Científico')
             plt.tight_layout()
-            plt.savefig("models/matriz_confusao_nome_cientifico.png")
+            plt.savefig("trained-models/matriz_confusao_nome_cientifico.png")
             # salva a imagem
             plt.close()  # fecha a figura para liberar memória
         except Exception as e:

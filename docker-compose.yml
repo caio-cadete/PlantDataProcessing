@@ -1,0 +1,27 @@
+services:
+  verdinho-api:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - '8080:8080'
+    restart: unless-stopped
+    container_name: verdinho-api
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 3G
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONIOENCODING=utf-8
+    mem_swappiness: 10
+    shm_size: '2gb'
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    name: verdinho-shared-network
+    driver: bridge

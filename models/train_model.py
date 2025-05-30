@@ -15,7 +15,7 @@ from tqdm import tqdm
 from models.utils_model import carregar_dados, colunas_features
 
 # Pasta de saída
-PASTA_MODELOS = "models"
+PASTA_MODELOS = "trained-models"
 os.makedirs(PASTA_MODELOS, exist_ok=True)
 
 
@@ -59,11 +59,11 @@ def treinar_e_salvar_modelo(X, y, le, scaler, target_col, return_preds=False):
         print("\n✅ Nenhuma classe com precisão zero.")
 
     # Salva modelo, encoder e scaler
-    joblib.dump(modelo, f"{PASTA_MODELOS}/modelo_{target_col}.pkl")
-    joblib.dump(le, f"{PASTA_MODELOS}/label_encoder_{target_col}.pkl")
-    joblib.dump(scaler, f"{PASTA_MODELOS}/scaler_{target_col}.pkl")
+    joblib.dump(modelo, f"{PASTA_MODELOS}/{target_col}_model.pkl")
+    joblib.dump(le, f"{PASTA_MODELOS}/{target_col}_label_encoder.pkl")
+    joblib.dump(scaler, f"{PASTA_MODELOS}/{target_col}_scaler.pkl")
 
-    with open(f"{PASTA_MODELOS}/relatorio_{target_col}.txt", "w", encoding="utf-8") as f:
+    with open(f"{PASTA_MODELOS}/{target_col}_report.txt", "w", encoding="utf-8") as f:
         f.write(relatorio)
 
     print(f"✅ Modelo '{target_col}' treinado com acurácia: {acc:.4f}")
@@ -81,7 +81,7 @@ def plotar_importancia(modelo, target_col):
     todas_features = colunas_features
     plt.xticks(range(len(importances)), [todas_features[i] for i in indices], rotation=90)
     plt.tight_layout()
-    plt.savefig(f"{PASTA_MODELOS}/importancia_{target_col}.png")
+    plt.savefig(f"{PASTA_MODELOS}/{target_col}_importance.png")
     plt.close()
     print(f"📈 Gráfico de importância das features salvo para '{target_col}'.")
 
@@ -113,7 +113,7 @@ for target in tqdm(alvos, desc="🔁 Processando alvos"):
         plotar_importancia(modelo, target)
         
         features_utilizadas = list(X.columns)
-        with open(f"{PASTA_MODELOS}/features_{target}.txt", "w", encoding="utf-8") as f:
+        with open(f"{PASTA_MODELOS}/{target}_features.txt", "w", encoding="utf-8") as f:
             for feat in features_utilizadas:
                 f.write(f"{feat}\n")
     except Exception as e:

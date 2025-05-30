@@ -25,3 +25,5 @@ logs/
 *.logs
 *.DS_Store
 .vscode/
+
+trained-models/
