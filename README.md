@@ -26,6 +26,15 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+4. Treine o modelo:
+```bash
+./scripts/train-model.sh
+```
+
+5. Execute a API:
+```bash
+uvicorn app.main:app --reload
+```
 
 ## 📚 Fontes de Dados
 
